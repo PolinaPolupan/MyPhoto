@@ -50,6 +50,8 @@ namespace MyPhoto
             GreenChannelSlider = new TrackBar();
             RedChannelSlider = new TrackBar();
             TopPanel = new Panel();
+            RedoButton = new Button();
+            UndoButton = new Button();
             PencilButton = new Button();
             MedianBlurButton = new Button();
             GaussianBlurButton = new Button();
@@ -273,7 +275,7 @@ namespace MyPhoto
             BlueChannelSlider.TabIndex = 2;
             BlueChannelSlider.TickStyle = TickStyle.None;
             BlueChannelSlider.Value = 100;
-            BlueChannelSlider.Scroll += Blue_Scroll;
+            BlueChannelSlider.MouseUp += Blue_Scroll;
             // 
             // GreenChannelSlider
             // 
@@ -286,7 +288,7 @@ namespace MyPhoto
             GreenChannelSlider.TabIndex = 1;
             GreenChannelSlider.TickStyle = TickStyle.None;
             GreenChannelSlider.Value = 100;
-            GreenChannelSlider.Scroll += Green_Scroll;
+            GreenChannelSlider.MouseUp += Green_Scroll;
             // 
             // RedChannelSlider
             // 
@@ -300,10 +302,12 @@ namespace MyPhoto
             RedChannelSlider.TabIndex = 0;
             RedChannelSlider.TickStyle = TickStyle.None;
             RedChannelSlider.Value = 100;
-            RedChannelSlider.Scroll += Red_Scroll;
+            RedChannelSlider.MouseUp += Red_Scroll;
             // 
             // TopPanel
             // 
+            TopPanel.Controls.Add(RedoButton);
+            TopPanel.Controls.Add(UndoButton);
             TopPanel.Controls.Add(PencilButton);
             TopPanel.Controls.Add(MedianBlurButton);
             TopPanel.Controls.Add(GaussianBlurButton);
@@ -314,6 +318,34 @@ namespace MyPhoto
             TopPanel.Name = "TopPanel";
             TopPanel.Size = new Size(945, 27);
             TopPanel.TabIndex = 6;
+            // 
+            // RedoButton
+            // 
+            RedoButton.Enabled = false;
+            RedoButton.FlatStyle = FlatStyle.Flat;
+            RedoButton.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            RedoButton.ForeColor = SystemColors.Control;
+            RedoButton.Location = new Point(887, 3);
+            RedoButton.Name = "RedoButton";
+            RedoButton.Size = new Size(55, 23);
+            RedoButton.TabIndex = 6;
+            RedoButton.Text = "→";
+            RedoButton.UseVisualStyleBackColor = true;
+            RedoButton.Click += RedoButton_Click;
+            // 
+            // UndoButton
+            // 
+            UndoButton.Enabled = false;
+            UndoButton.FlatStyle = FlatStyle.Flat;
+            UndoButton.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            UndoButton.ForeColor = SystemColors.Control;
+            UndoButton.Location = new Point(825, 3);
+            UndoButton.Name = "UndoButton";
+            UndoButton.Size = new Size(59, 23);
+            UndoButton.TabIndex = 5;
+            UndoButton.Text = "←";
+            UndoButton.UseVisualStyleBackColor = true;
+            UndoButton.Click += UndoButton_Click;
             // 
             // PencilButton
             // 
@@ -450,7 +482,7 @@ namespace MyPhoto
             SaturationSlider.TabIndex = 2;
             SaturationSlider.TickStyle = TickStyle.None;
             SaturationSlider.Value = 100;
-            SaturationSlider.Scroll += SaturationSlider_Scroll;
+            SaturationSlider.MouseUp += SaturationSlider_Scroll;
             // 
             // ContrastSlider
             // 
@@ -461,7 +493,7 @@ namespace MyPhoto
             ContrastSlider.TabIndex = 1;
             ContrastSlider.TickStyle = TickStyle.None;
             ContrastSlider.Value = 100;
-            ContrastSlider.Scroll += ContrastSlider_Scroll;
+            ContrastSlider.MouseUp += ContrastSlider_Scroll;
             // 
             // BrightnessSlider
             // 
@@ -473,7 +505,7 @@ namespace MyPhoto
             BrightnessSlider.TabIndex = 0;
             BrightnessSlider.TabStop = false;
             BrightnessSlider.TickStyle = TickStyle.None;
-            BrightnessSlider.Scroll += BrightnessSlider_Scroll;
+            BrightnessSlider.MouseUp += BrightnessSlider_Scroll;
             // 
             // LeftPanel
             // 
@@ -559,5 +591,10 @@ namespace MyPhoto
         private Button GaussianBlurButton;
         private Button MedianBlurButton;
         private Button PencilButton;
+        private Button UndoButton;
+        private Button RedoButton;
+
+        private History history;
+        private ImageOriginator originator;
     }
 }

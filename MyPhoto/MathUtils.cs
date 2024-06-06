@@ -8,16 +8,19 @@ namespace MyPhoto
 {
     internal static class MathUtils
     {
-        public static float[][] GetIdentity()
+        public static float[][] Identity5x5
         {
-            float[][] Identity = {
-            new float[] {1,  0,  0,  0, 0},
-            new float[] {0,  1,  0,  0, 0},
-            new float[] {0,  0,  1,  0, 0},
-            new float[] {0,  0,  0,  1, 0},
-            new float[] {0,  0,  0,  0, 1}};
-
-            return Identity;
+            get
+            {
+                return new float[][]
+                {
+                    new float[] {1,  0,  0,  0, 0},
+                    new float[] {0,  1,  0,  0, 0},
+                    new float[] {0,  0,  1,  0, 0},
+                    new float[] {0,  0,  0,  1, 0},
+                    new float[] {0,  0,  0,  0, 1}
+                };
+            }
         }
 
         public static double[,] Mean3x3

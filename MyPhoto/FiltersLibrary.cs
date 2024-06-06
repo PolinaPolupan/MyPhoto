@@ -26,7 +26,7 @@ namespace MyPhoto
 
         public static float[][] GetBrightnessMatrix(int brightness)
         {
-            float[][] matrix = MathUtils.GetIdentity();
+            float[][] matrix = MathUtils.Identity5x5;
 
             float brightnessVal = (brightness / 100.0f);
 
@@ -39,7 +39,7 @@ namespace MyPhoto
 
         public static float[][] GetContrastMatrix(int contrast)
         {
-            float[][] matrix = MathUtils.GetIdentity();
+            float[][] matrix = MathUtils.Identity5x5;
 
             float contrastVal = (contrast / 100.0f);
 
@@ -52,7 +52,7 @@ namespace MyPhoto
 
         public static float[][] GetSaturationMatrix(int sat)
         {
-            float[][] matrix = MathUtils.GetIdentity();
+            float[][] matrix = MathUtils.Identity5x5;
 
             // Luminance vector for linear RGB
             const float rwgt = 0.3086f;
@@ -77,7 +77,7 @@ namespace MyPhoto
 
         public static float[][] GetRedChannelMatrix(int red)
         {
-            float[][] matrix = MathUtils.GetIdentity();
+            float[][] matrix = MathUtils.Identity5x5;
 
             float redVal = (red / 100.0f);
 
@@ -88,7 +88,7 @@ namespace MyPhoto
 
         public static float[][] GetGreenChannelMatrix(int green)
         {
-            float[][] matrix = MathUtils.GetIdentity();
+            float[][] matrix = MathUtils.Identity5x5;
 
             float greenVal = (green / 100.0f);
 
@@ -99,7 +99,7 @@ namespace MyPhoto
 
         public static float[][] GetBlueChannelMatrix(int blue)
         {
-            float[][] matrix = MathUtils.GetIdentity();
+            float[][] matrix = MathUtils.Identity5x5;
 
             float blueVal = (blue / 100.0f);
 
@@ -121,7 +121,7 @@ namespace MyPhoto
 
             matrix = MathUtils.MultiplyByValue(value, matrix);
 
-            return (value > 0) ? matrix : MathUtils.GetIdentity();
+            return (value > 0) ? matrix : MathUtils.Identity5x5;
         }
 
         public static float[][] GetGrayscaleMatrix(int value)
@@ -136,7 +136,7 @@ namespace MyPhoto
 
             matrix = MathUtils.MultiplyByValue(value, matrix);
 
-            return (value > 0) ? matrix : MathUtils.GetIdentity(); ;
+            return (value > 0) ? matrix : MathUtils.Identity5x5; 
         }
 
         public static float[][] GetNegativeMatrix(int value)
@@ -149,7 +149,7 @@ namespace MyPhoto
                 new float[]{1, 1, 1, 0, 1}
             };
 
-            return (value > 0) ? matrix : MathUtils.GetIdentity(); ;
+            return (value > 0) ? matrix : MathUtils.Identity5x5;
         }
 
         public static float[][] GetTransparencyMatrix(int value)
@@ -163,7 +163,7 @@ namespace MyPhoto
                 new float[]{0, 0, 0, 0, 1}
             };
 
-            return (value > 0) ? matrix : MathUtils.GetIdentity(); ;
+            return (value > 0) ? matrix : MathUtils.Identity5x5;
         }
 
         public static double[,] GaussianBlur(int length, double weight)
@@ -252,8 +252,10 @@ namespace MyPhoto
             Marshal.Copy(result, 0, resultData.Scan0, bytes);
             resultImage.UnlockBits(resultData);
 
-            GC.Collect(GC.MaxGeneration);
-
+            resultData = null;
+            result = null;
+            buffer= null;
+                 
             return resultImage;
         }
 
@@ -273,7 +275,6 @@ namespace MyPhoto
 
             byte[] resultBuffer = new byte[sourceData.Stride *
                                            sourceData.Height];
-
 
             Marshal.Copy(sourceData.Scan0, pixelBuffer, 0,
                                        pixelBuffer.Length);
@@ -356,8 +357,10 @@ namespace MyPhoto
 
 
             resultBitmap.UnlockBits(resultData);
-            
-            GC.Collect(GC.MaxGeneration);
+
+            resultData = null;
+            resultBuffer = null;
+            pixelBuffer = null;
 
             return resultBitmap;
         }
@@ -521,7 +524,9 @@ namespace MyPhoto
             Marshal.Copy(resultBuffer, 0, resultData.Scan0, resultBuffer.Length);
             resultBitmap.UnlockBits(resultData);
 
-            GC.Collect(GC.MaxGeneration);
+            resultData = null;
+            resultBuffer = null;
+            pixelBuffer = null;
 
             return resultBitmap;
         }

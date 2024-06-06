@@ -13,7 +13,7 @@ namespace MyPhoto
 
         public static float[][] ApplyAll()
         {
-            float[][] matrix = MathUtils.GetIdentity();
+            float[][] matrix = MathUtils.Identity5x5;
             foreach (KeyValuePair<FiltersLibrary.Filter, int> entry in FiltersValuesMapping)
             {
                 switch (entry.Key)
@@ -58,6 +58,66 @@ namespace MyPhoto
             FiltersValuesMapping[filter] = value;
         }
 
+        public static Dictionary<FiltersLibrary.Filter, int> GetCommandState()
+        {
+            return new Dictionary<FiltersLibrary.Filter, int>(FiltersValuesMapping);
+        }
+
+        public static void UpdateCommandState(Dictionary<FiltersLibrary.Filter, int> values)
+        {
+            FiltersValuesMapping = values;
+        }
+
+        public static int GetBrightness()
+        {
+            return FiltersValuesMapping[FiltersLibrary.Filter.BRIGHTNESS];
+        }
+
+        public static int GetContrast()
+        {
+            return FiltersValuesMapping[FiltersLibrary.Filter.CONTRAST];
+        }
+
+        public static int GetSaturation()
+        {
+            return FiltersValuesMapping[FiltersLibrary.Filter.SATURATION];
+        }
+
+        public static int GetRed()
+        {
+            return FiltersValuesMapping[FiltersLibrary.Filter.RED];
+        }
+
+        public static int GetGreen()
+        {
+            return FiltersValuesMapping[FiltersLibrary.Filter.GREEN];
+        }
+
+        public static int GetBlue()
+        {
+            return FiltersValuesMapping[FiltersLibrary.Filter.BLUE];
+        }
+
+        public static int GetSepia()
+        {
+            return FiltersValuesMapping[FiltersLibrary.Filter.SEPIA];
+        }
+
+        public static int GetGrayscale()
+        {
+            return FiltersValuesMapping[FiltersLibrary.Filter.GRAYSCALE];
+        }
+
+        public static int GetNegative()
+        {
+            return FiltersValuesMapping[FiltersLibrary.Filter.NEGATIVE];
+        }
+
+        public static int GetTransparency()
+        {
+            return FiltersValuesMapping[FiltersLibrary.Filter.TRANSPARENCY];
+        }
+
         public static void ResetAll()
         {
             FiltersValuesMapping.Clear();
@@ -67,6 +127,10 @@ namespace MyPhoto
             AddFilterCommand(FiltersLibrary.Filter.RED, 100);
             AddFilterCommand(FiltersLibrary.Filter.BLUE, 100);
             AddFilterCommand(FiltersLibrary.Filter.GREEN, 100);
+            AddFilterCommand(FiltersLibrary.Filter.SEPIA, 0);
+            AddFilterCommand(FiltersLibrary.Filter.GRAYSCALE, 0);
+            AddFilterCommand(FiltersLibrary.Filter.NEGATIVE, 0);
+            AddFilterCommand(FiltersLibrary.Filter.TRANSPARENCY, 0);
         }
     }
 }
