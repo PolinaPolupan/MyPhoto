@@ -70,7 +70,7 @@ namespace MyPhoto
             return values;
         }
 
-        public ImageMemento CreateMemento(Dictionary<FiltersLibrary.Filter, int> values, Image? image = null)
+        public ImageMemento CreateMemento()
         {
             if (image != null)
             {
@@ -98,17 +98,23 @@ namespace MyPhoto
 
         public void Initialize(ImageMemento memento)
         {
+            currentIndex = 0;
             mementos.Add(memento);
         }
 
         public void AddMemento(ImageMemento memento)
         {
-            currentIndex++;           
-            for (int i = currentIndex; i < mementos.Count - currentIndex + 1; i++)
+            currentIndex++;
+
+            if (mementos.Count > currentIndex)
             {
-                mementos[i].ReleaseResources();
-            }
-            mementos.RemoveRange(currentIndex, mementos.Count - currentIndex);
+                for (int i = currentIndex; i < mementos.Count; i++)
+                {
+                    //mementos[i].ReleaseResources();  
+                }
+                mementos.RemoveRange(currentIndex, mementos.Count - currentIndex);
+            }          
+
             mementos.Add(memento);
         }
 

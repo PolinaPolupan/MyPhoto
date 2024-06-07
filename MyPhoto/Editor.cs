@@ -26,46 +26,25 @@ namespace MyPhoto
             PictureBox.Image?.Dispose();
         }
 
-        private void UpdateUi()
-        {
-            BrightnessSlider.Value = CommandQueue.GetBrightness();
-            ContrastSlider.Value = CommandQueue.GetContrast();
-            SaturationSlider.Value = CommandQueue.GetSaturation();
-            RedChannelSlider.Value = CommandQueue.GetRed();
-            GreenChannelSlider.Value = CommandQueue.GetGreen();
-            BlueChannelSlider.Value = CommandQueue.GetBlue();
-            SepiaCheckBox.Checked = CommandQueue.GetSepia() > 0;
-            NegativeCheckBox.Checked = CommandQueue.GetNegative() > 0;
-            TransparencyCheckBox.Checked = CommandQueue.GetTransparency() > 0;
-            GrayscaleCheckBox.Checked = CommandQueue.GetGrayscale() > 0;
-        }
-       
         private void SaveState(bool saveImage = false)
-        {            
+        {
             var values = CommandQueue.GetCommandState();
             originator.UpdateValues(values);
-            
+
             if (saveImage)
             {
                 var image = (System.Drawing.Image)PictureBox.Image.Clone();
                 originator.UpdateImage(image);
-                history.AddMemento(originator.CreateMemento(values, image));
             }
-            else
-            {
-                history.AddMemento(originator.CreateMemento(values));
-            }
+
+            history.AddMemento(originator.CreateMemento());
+
             Console.WriteLine(history.currentIndex);
             Console.WriteLine(history.mementos.Count);
+            Console.WriteLine("\n");
+
             RedoButton.Enabled = IsRedoEnabled();
             UndoButton.Enabled = IsUndoEnabled();
-            Console.WriteLine("\n");
-        }
-
-        private void ReloadPictureBox()
-        {
-            ReleasePictureBoxResources();
-            PictureBox.Image = FiltersManager.Reload(ref ImageEditorState.image);
         }
 
         private void Editor_Load(object sender, EventArgs e)
@@ -74,7 +53,90 @@ namespace MyPhoto
             var image = (System.Drawing.Image)PictureBox.Image.Clone();
             history = new History(new ImageMemento(image, CommandQueue.GetCommandState()));
             originator = new ImageOriginator(image, CommandQueue.GetCommandState());
+            UpdateUi();
             ReloadPictureBox();
+        }
+
+        private void UpdateUi()
+        {
+            BrightnessSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.BRIGHTNESS);
+            ContrastSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.CONTRAST);
+            SaturationSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.SATURATION);
+            RedChannelSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.RED);
+            GreenChannelSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.GREEN);
+            BlueChannelSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.BLUE);
+            SepiaCheckBox.Checked = CommandQueue.GetValue(FiltersLibrary.Filter.SEPIA) > 0;
+            NegativeCheckBox.Checked = CommandQueue.GetValue(FiltersLibrary.Filter.NEGATIVE) > 0;
+            TransparencyCheckBox.Checked = CommandQueue.GetValue(FiltersLibrary.Filter.TRANSPARENCY) > 0;
+            GrayscaleCheckBox.Checked = CommandQueue.GetValue(FiltersLibrary.Filter.GRAYSCALE) > 0;
+            
+            UndoButton.Enabled = IsUndoEnabled();
+            RedoButton.Enabled = IsRedoEnabled();
+        }        
+
+        private void ResetAllButton_Click(object sender, EventArgs e)
+        {
+            ResetAll();
+
+            SaveState();
+
+            UpdateUi();
+        }
+
+        private void ResetAll()
+        {
+            FiltersManager.ResetAll();
+            ReloadPictureBox();
+        }
+
+        private void OpenButton_Click(object sender, EventArgs e)
+        {
+            var res = ImageLoader.LoadImage(ref ImageEditorState.image, ref ImageEditorState.imagePath);
+            if (res == DialogResult.OK)
+            {
+                CommandQueue.ResetAll();
+                ReloadPictureBox(); // Reapply all of the filters
+
+                var image = (System.Drawing.Image)ImageEditorState.image.Clone();
+
+                history.ResetHistory();
+                originator.UpdateImage(image);
+                originator.UpdateValues(CommandQueue.GetCommandState());
+                history.Initialize(originator.CreateMemento());
+
+                UpdateUi();
+            }
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            ImageLoader.SaveImage(PictureBox.Image);
+        }
+
+        private void PictureBox_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.Z))
+            {
+                Undo();
+                return true;
+            }
+            if (keyData == (Keys.Control | Keys.Z | Keys.Shift))
+            {
+                Redo();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void ReloadPictureBox()
+        {
+            ReleasePictureBoxResources();
+            PictureBox.Image = FiltersManager.Reload(ref ImageEditorState.image);
         }
 
         private void BrightnessSlider_Scroll(object sender, EventArgs e)
@@ -156,69 +218,7 @@ namespace MyPhoto
         private void PictureBox_Up(object sender, MouseEventArgs e)
         {
             ReloadPictureBox();
-        }
-
-        private void ResetAllButton_Click(object sender, EventArgs e)
-        {
-            ResetAll();
-        }
-
-        private void ResetAll()
-        {
-            BrightnessSlider.Value = 0;
-            ContrastSlider.Value = 100;
-            SaturationSlider.Value = 100;
-            RedChannelSlider.Value = 100;
-            GreenChannelSlider.Value = 100;
-            BlueChannelSlider.Value = 100;
-            SepiaCheckBox.Checked = false;
-            GrayscaleCheckBox.Checked = false;
-            NegativeCheckBox.Checked = false;
-            TransparencyCheckBox.Checked = false;
-
-            FiltersManager.ResetAll();
-            ReleasePictureBoxResources();
-            ReloadPictureBox();
-        }
-
-        private void OpenButton_Click(object sender, EventArgs e)
-        {
-            var res = ImageLoader.LoadImage(ref ImageEditorState.image, ref ImageEditorState.imagePath);
-            if (res == DialogResult.OK)
-            {
-                ReloadPictureBox(); // Reapply all of the filters
-            }
-            //var image = (System.Drawing.Image)ImageEditorState.image.Clone();
-            //history.ResetHistory();
-            //originator.UpdateImage(image);
-            //originator.UpdateValues(CommandQueue.GetCommandState());
-            //history.Initialize(new ImageMemento(image, CommandQueue.GetCommandState()));
-        }
-
-        private void SaveButton_Click(object sender, EventArgs e)
-        {
-            ImageLoader.SaveImage(PictureBox.Image);
-        }
-
-        private void PictureBox_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Control | Keys.Z))
-            {
-                Undo();
-                return true;
-            }
-            if (keyData == (Keys.Control | Keys.Z | Keys.Shift))
-            {
-                Redo();
-                return true;
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
+        }      
 
         private void GaussianBlurButton_Click(object sender, EventArgs e)
         {
@@ -261,17 +261,19 @@ namespace MyPhoto
 
             var image = originator.GetImage();
             var values = originator.GetValues();
+
             if (image != null)
             {
                 ImageEditorState.image = (System.Drawing.Image)image.Clone();
             }
+
             CommandQueue.UpdateCommandState(values);
             UpdateUi();
+
             Console.WriteLine(history.currentIndex);
             Console.WriteLine(history.mementos.Count);
             Console.WriteLine("\n");
-            RedoButton.Enabled = IsRedoEnabled();
-            UndoButton.Enabled = IsUndoEnabled();
+
             ReloadPictureBox();
         }
 
@@ -280,20 +282,21 @@ namespace MyPhoto
             ReleasePictureBoxResources();
             var state = history.GetNext();
             originator.RestoreFromMemento(state);
-            
+
             var image = originator.GetImage();
             var values = originator.GetValues();
+
             if (image != null)
             {
                 ImageEditorState.image = (System.Drawing.Image)image.Clone();
             }
             CommandQueue.UpdateCommandState(values);
             UpdateUi();
+
             Console.WriteLine(history.currentIndex);
             Console.WriteLine(history.mementos.Count);
             Console.WriteLine("\n");
-            RedoButton.Enabled = IsRedoEnabled();
-            UndoButton.Enabled = IsUndoEnabled();
+
             ReloadPictureBox();
         }
 

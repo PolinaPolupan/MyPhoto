@@ -9,15 +9,41 @@ namespace MyPhoto
 {
     internal static class CommandQueue
     {
-        private static Dictionary<FiltersLibrary.Filter, int> filtersValuesMapping = new Dictionary<FiltersLibrary.Filter, int>();
-        private static Dictionary<FiltersLibrary.Filter, Func<int, float[][]>> filtersActionsMapping = new Dictionary<FiltersLibrary.Filter, Func<int, float[][]>>();
+        private static Dictionary<FiltersLibrary.Filter, int> _filtersValuesMapping = new Dictionary<FiltersLibrary.Filter, int>();
+        private static Dictionary<FiltersLibrary.Filter, Func<int, float[][]>> _filtersActionsMapping = new Dictionary<FiltersLibrary.Filter, Func<int, float[][]>>() 
+        {
+            { FiltersLibrary.Filter.BRIGHTNESS, FiltersLibrary.GetBrightnessMatrix },
+            { FiltersLibrary.Filter.CONTRAST, FiltersLibrary.GetContrastMatrix },
+            { FiltersLibrary.Filter.SATURATION, FiltersLibrary.GetSaturationMatrix },
+            { FiltersLibrary.Filter.RED, FiltersLibrary.GetRedChannelMatrix },
+            { FiltersLibrary.Filter.GREEN, FiltersLibrary.GetGreenChannelMatrix },
+            { FiltersLibrary.Filter.BLUE, FiltersLibrary.GetBlueChannelMatrix },
+            { FiltersLibrary.Filter.SEPIA, FiltersLibrary.GetSepiaMatrix },
+            { FiltersLibrary.Filter.GRAYSCALE, FiltersLibrary.GetGrayscaleMatrix },
+            { FiltersLibrary.Filter.NEGATIVE, FiltersLibrary.GetNegativeMatrix },
+            { FiltersLibrary.Filter.TRANSPARENCY, FiltersLibrary.GetTransparencyMatrix }
+        };
+
+        private static Dictionary<FiltersLibrary.Filter, int> _defaultFiltersValues = new Dictionary<FiltersLibrary.Filter, int>() 
+        { 
+            { FiltersLibrary.Filter.BRIGHTNESS, 0 },
+            { FiltersLibrary.Filter.CONTRAST, 100 },
+            { FiltersLibrary.Filter.SATURATION, 100 },
+            { FiltersLibrary.Filter.RED, 100 },
+            { FiltersLibrary.Filter.GREEN, 100 },
+            { FiltersLibrary.Filter.BLUE, 100 },
+            { FiltersLibrary.Filter.SEPIA, 0 },
+            { FiltersLibrary.Filter.GRAYSCALE, 0 },
+            { FiltersLibrary.Filter.NEGATIVE, 0 },
+            { FiltersLibrary.Filter.TRANSPARENCY, 0 },
+        };
 
         public static float[][] ApplyAll()
         {
             float[][] matrix = MathUtils.Identity5x5;
-            foreach (KeyValuePair<FiltersLibrary.Filter, int> entry in filtersValuesMapping)
+            foreach (KeyValuePair<FiltersLibrary.Filter, int> entry in _filtersValuesMapping)
             {
-                var res = filtersActionsMapping[entry.Key].Invoke(entry.Value);
+                var res = _filtersActionsMapping[entry.Key].Invoke(entry.Value);
                 matrix = MathUtils.Multiply(res, matrix);
             }
             return matrix;
@@ -25,99 +51,36 @@ namespace MyPhoto
 
         public static void AddFilterCommand(FiltersLibrary.Filter filter, int value)
         {
-            filtersValuesMapping[filter] = value;
+            _filtersValuesMapping[filter] = value;
         }
 
         private static void AddFunctionCommand(FiltersLibrary.Filter filter, Func<int, float[][]> func)
         {
-            filtersActionsMapping[filter] = func;
+            _filtersActionsMapping[filter] = func;
         }
 
         public static Dictionary<FiltersLibrary.Filter, int> GetCommandState()
         {
-            return new Dictionary<FiltersLibrary.Filter, int>(filtersValuesMapping);
+            return new Dictionary<FiltersLibrary.Filter, int>(_filtersValuesMapping);
         }
 
         public static void UpdateCommandState(Dictionary<FiltersLibrary.Filter, int> values)
         {
-            filtersValuesMapping = values;
+            _filtersValuesMapping = values;
         }
 
-        public static int GetBrightness()
+        public static int GetValue(FiltersLibrary.Filter filter)
         {
-            return filtersValuesMapping[FiltersLibrary.Filter.BRIGHTNESS];
-        }
-
-        public static int GetContrast()
-        {
-            return filtersValuesMapping[FiltersLibrary.Filter.CONTRAST];
-        }
-
-        public static int GetSaturation()
-        {
-            return filtersValuesMapping[FiltersLibrary.Filter.SATURATION];
-        }
-
-        public static int GetRed()
-        {
-            return filtersValuesMapping[FiltersLibrary.Filter.RED];
-        }
-
-        public static int GetGreen()
-        {
-            return filtersValuesMapping[FiltersLibrary.Filter.GREEN];
-        }
-
-        public static int GetBlue()
-        {
-            return filtersValuesMapping[FiltersLibrary.Filter.BLUE];
-        }
-
-        public static int GetSepia()
-        {
-            return filtersValuesMapping[FiltersLibrary.Filter.SEPIA];
-        }
-
-        public static int GetGrayscale()
-        {
-            return filtersValuesMapping[FiltersLibrary.Filter.GRAYSCALE];
-        }
-
-        public static int GetNegative()
-        {
-            return filtersValuesMapping[FiltersLibrary.Filter.NEGATIVE];
-        }
-
-        public static int GetTransparency()
-        {
-            return filtersValuesMapping[FiltersLibrary.Filter.TRANSPARENCY];
+            return _filtersValuesMapping.TryGetValue(filter, out var temp) ? temp : _defaultFiltersValues[filter];
         }
 
         public static void ResetAll()
         {
-            filtersValuesMapping.Clear();
-            AddFilterCommand(FiltersLibrary.Filter.BRIGHTNESS, 0);
-            AddFilterCommand(FiltersLibrary.Filter.CONTRAST, 100);
-            AddFilterCommand(FiltersLibrary.Filter.SATURATION, 100);
-            AddFilterCommand(FiltersLibrary.Filter.RED, 100);
-            AddFilterCommand(FiltersLibrary.Filter.GREEN, 100);
-            AddFilterCommand(FiltersLibrary.Filter.BLUE, 100);            
-            AddFilterCommand(FiltersLibrary.Filter.SEPIA, 0);
-            AddFilterCommand(FiltersLibrary.Filter.GRAYSCALE, 0);
-            AddFilterCommand(FiltersLibrary.Filter.NEGATIVE, 0);
-            AddFilterCommand(FiltersLibrary.Filter.TRANSPARENCY, 0);
-
-            filtersActionsMapping.Clear();
-            AddFunctionCommand(FiltersLibrary.Filter.BRIGHTNESS, FiltersLibrary.GetBrightnessMatrix);
-            AddFunctionCommand(FiltersLibrary.Filter.CONTRAST, FiltersLibrary.GetContrastMatrix);
-            AddFunctionCommand(FiltersLibrary.Filter.SATURATION, FiltersLibrary.GetSaturationMatrix);
-            AddFunctionCommand(FiltersLibrary.Filter.RED, FiltersLibrary.GetRedChannelMatrix);
-            AddFunctionCommand(FiltersLibrary.Filter.GREEN, FiltersLibrary.GetGreenChannelMatrix);
-            AddFunctionCommand(FiltersLibrary.Filter.BLUE, FiltersLibrary.GetBlueChannelMatrix);
-            AddFunctionCommand(FiltersLibrary.Filter.SEPIA, FiltersLibrary.GetSepiaMatrix);
-            AddFunctionCommand(FiltersLibrary.Filter.GRAYSCALE, FiltersLibrary.GetGrayscaleMatrix);
-            AddFunctionCommand(FiltersLibrary.Filter.NEGATIVE, FiltersLibrary.GetNegativeMatrix);
-            AddFunctionCommand(FiltersLibrary.Filter.TRANSPARENCY, FiltersLibrary.GetTransparencyMatrix);
+            _filtersValuesMapping.Clear();
+            foreach (FiltersLibrary.Filter entry in FiltersLibrary.Filter.GetValues(typeof(FiltersLibrary.Filter)))
+            {
+                AddFilterCommand(entry, _defaultFiltersValues[entry]);
+            }
         }
     }
 }
