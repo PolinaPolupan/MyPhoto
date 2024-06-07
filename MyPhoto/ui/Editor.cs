@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MyPhoto.core;
+using MyPhoto.utils;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace MyPhoto

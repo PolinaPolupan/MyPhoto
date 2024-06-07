@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyPhoto.utils;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace MyPhoto
+namespace MyPhoto.core
 {
     internal static class CommandQueue
     {
         private static Dictionary<FiltersLibrary.Filter, int> _filtersValuesMapping = new Dictionary<FiltersLibrary.Filter, int>();
-        private static Dictionary<FiltersLibrary.Filter, Func<int, float[][]>> _filtersActionsMapping = new Dictionary<FiltersLibrary.Filter, Func<int, float[][]>>() 
+        private static Dictionary<FiltersLibrary.Filter, Func<int, float[][]>> _filtersActionsMapping = new Dictionary<FiltersLibrary.Filter, Func<int, float[][]>>()
         {
             { FiltersLibrary.Filter.BRIGHTNESS, FiltersLibrary.GetBrightnessMatrix },
             { FiltersLibrary.Filter.CONTRAST, FiltersLibrary.GetContrastMatrix },
@@ -27,8 +28,8 @@ namespace MyPhoto
             { FiltersLibrary.Filter.PURPLE, FiltersLibrary.GetPurpleMatrix },
         };
 
-        private static Dictionary<FiltersLibrary.Filter, int> _defaultFiltersValues = new Dictionary<FiltersLibrary.Filter, int>() 
-        { 
+        private static Dictionary<FiltersLibrary.Filter, int> _defaultFiltersValues = new Dictionary<FiltersLibrary.Filter, int>()
+        {
             { FiltersLibrary.Filter.BRIGHTNESS, 0 },
             { FiltersLibrary.Filter.CONTRAST, 100 },
             { FiltersLibrary.Filter.SATURATION, 100 },
@@ -83,7 +84,7 @@ namespace MyPhoto
         public static void ResetAll()
         {
             _filtersValuesMapping.Clear();
-            foreach (FiltersLibrary.Filter entry in FiltersLibrary.Filter.GetValues(typeof(FiltersLibrary.Filter)))
+            foreach (FiltersLibrary.Filter entry in Enum.GetValues(typeof(FiltersLibrary.Filter)))
             {
                 AddFilterCommand(entry, _defaultFiltersValues[entry]);
             }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
+using MyPhoto.core;
 
 namespace MyPhoto
 {
@@ -108,6 +109,7 @@ namespace MyPhoto
 
             if (mementos.Count > currentIndex)
             {
+                // MEMORY LEAK: Resolve issue
                 for (int i = currentIndex; i < mementos.Count; i++)
                 {
                     //mementos[i].ReleaseResources();  

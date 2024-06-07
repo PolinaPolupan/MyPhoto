@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
-namespace MyPhoto
+namespace MyPhoto.utils
 {
     internal static class ImageLoader
     {

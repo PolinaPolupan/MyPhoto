@@ -1,4 +1,5 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
+using MyPhoto.core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;

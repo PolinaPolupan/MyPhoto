@@ -1,3 +1,6 @@
+using MyPhoto.core;
+using MyPhoto.utils;
+
 namespace MyPhoto
 {
     public partial class WelcomeScreen : Form
