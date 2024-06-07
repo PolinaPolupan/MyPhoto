@@ -14,6 +14,7 @@
 * Rewrite filters using C/C++ code and shaders
 * Use a linear algebra library to perform fast computations
 * Rewrite UI using UI presentation pattern
+* Write tests
 ## Screenshots
 ![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/9c73d1a9-0956-4351-b2e6-4400f5738f5b)
 ![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/a9fd1ae5-37aa-4281-baaa-4d478d2e1cfa)
