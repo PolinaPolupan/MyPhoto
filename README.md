@@ -1,6 +1,6 @@
 # My Photo
 **My Photo** is a basic photo editor written in C#. 
-**This work in a progress**
+**This work in progress**
 ## Functionality
 * Color correction
 * Brightness/Contrast adjustment
