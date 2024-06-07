@@ -103,6 +103,24 @@ namespace MyPhoto
             return ApplyColorMatrix(ref image);
         }
 
+        public static Bitmap ApplyDark(ref Image image, int value)
+        {
+            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.DARK, value);
+            return ApplyColorMatrix(ref image);
+        }
+
+        public static Bitmap ApplyBlue(ref Image image, int value)
+        {
+            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.BLUE_FILTER, value);
+            return ApplyColorMatrix(ref image);
+        }
+
+        public static Bitmap ApplyPurple(ref Image image, int value)
+        {
+            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.PURPLE, value);
+            return ApplyColorMatrix(ref image);
+        }
+
         public static Bitmap ApplyGaussianBlur(Image image, float weight)
         {
             return FiltersLibrary.Convolve((System.Drawing.Bitmap)image, FiltersLibrary.GaussianBlur(7, weight));

@@ -21,7 +21,10 @@ namespace MyPhoto
             { FiltersLibrary.Filter.SEPIA, FiltersLibrary.GetSepiaMatrix },
             { FiltersLibrary.Filter.GRAYSCALE, FiltersLibrary.GetGrayscaleMatrix },
             { FiltersLibrary.Filter.NEGATIVE, FiltersLibrary.GetNegativeMatrix },
-            { FiltersLibrary.Filter.TRANSPARENCY, FiltersLibrary.GetTransparencyMatrix }
+            { FiltersLibrary.Filter.TRANSPARENCY, FiltersLibrary.GetTransparencyMatrix },
+            { FiltersLibrary.Filter.DARK, FiltersLibrary.GetDarkMatrix },
+            { FiltersLibrary.Filter.BLUE_FILTER, FiltersLibrary.GetBlueMatrix },
+            { FiltersLibrary.Filter.PURPLE, FiltersLibrary.GetPurpleMatrix },
         };
 
         private static Dictionary<FiltersLibrary.Filter, int> _defaultFiltersValues = new Dictionary<FiltersLibrary.Filter, int>() 
@@ -36,6 +39,9 @@ namespace MyPhoto
             { FiltersLibrary.Filter.GRAYSCALE, 0 },
             { FiltersLibrary.Filter.NEGATIVE, 0 },
             { FiltersLibrary.Filter.TRANSPARENCY, 0 },
+            { FiltersLibrary.Filter.DARK, 0 },
+            { FiltersLibrary.Filter.BLUE_FILTER, 0 },
+            { FiltersLibrary.Filter.PURPLE, 0 },
         };
 
         public static float[][] ApplyAll()

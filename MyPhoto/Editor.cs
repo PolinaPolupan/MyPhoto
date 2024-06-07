@@ -69,10 +69,13 @@ namespace MyPhoto
             NegativeCheckBox.Checked = CommandQueue.GetValue(FiltersLibrary.Filter.NEGATIVE) > 0;
             TransparencyCheckBox.Checked = CommandQueue.GetValue(FiltersLibrary.Filter.TRANSPARENCY) > 0;
             GrayscaleCheckBox.Checked = CommandQueue.GetValue(FiltersLibrary.Filter.GRAYSCALE) > 0;
-            
+            DarkCheckBox.Checked = CommandQueue.GetValue(FiltersLibrary.Filter.DARK) > 0;
+            BlueCheckBox.Checked = CommandQueue.GetValue(FiltersLibrary.Filter.BLUE_FILTER) > 0;
+            PurpleCheckBox.Checked = CommandQueue.GetValue(FiltersLibrary.Filter.PURPLE) > 0;
+
             UndoButton.Enabled = IsUndoEnabled();
             RedoButton.Enabled = IsRedoEnabled();
-        }        
+        }
 
         private void ResetAllButton_Click(object sender, EventArgs e)
         {
@@ -209,6 +212,27 @@ namespace MyPhoto
             SaveState();
         }
 
+        private void DarkCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            ReleasePictureBoxResources();
+            PictureBox.Image = FiltersManager.ApplyDark(ref ImageEditorState.image, (DarkCheckBox.Checked) ? 1 : 0);
+            SaveState();
+        }
+
+        private void BlueCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            ReleasePictureBoxResources();
+            PictureBox.Image = FiltersManager.ApplyBlue(ref ImageEditorState.image, (BlueCheckBox.Checked) ? 1 : 0);
+            SaveState();
+        }
+
+        private void PurpleCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            ReleasePictureBoxResources();
+            PictureBox.Image = FiltersManager.ApplyPurple(ref ImageEditorState.image, (PurpleCheckBox.Checked) ? 1 : 0);
+            SaveState();
+        }
+
         private void PictureBox_Down(object sender, EventArgs e)
         {
             ReleasePictureBoxResources();
@@ -218,7 +242,7 @@ namespace MyPhoto
         private void PictureBox_Up(object sender, MouseEventArgs e)
         {
             ReloadPictureBox();
-        }      
+        }
 
         private void GaussianBlurButton_Click(object sender, EventArgs e)
         {
@@ -319,5 +343,7 @@ namespace MyPhoto
         {
             return history.IsRedoEnabled();
         }
+
+        
     }
 }

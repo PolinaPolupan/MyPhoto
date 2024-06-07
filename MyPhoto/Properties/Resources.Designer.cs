@@ -63,6 +63,26 @@ namespace MyPhoto.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Blue {
+            get {
+                object obj = ResourceManager.GetObject("Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Dark {
+            get {
+                object obj = ResourceManager.GetObject("Dark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Grayscale {
             get {
                 object obj = ResourceManager.GetObject("Grayscale", resourceCulture);
@@ -76,6 +96,16 @@ namespace MyPhoto.Properties {
         internal static System.Drawing.Bitmap Negative {
             get {
                 object obj = ResourceManager.GetObject("Negative", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Purple {
+            get {
+                object obj = ResourceManager.GetObject("Purple", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

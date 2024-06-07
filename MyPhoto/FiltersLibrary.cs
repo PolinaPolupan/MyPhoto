@@ -21,7 +21,10 @@ namespace MyPhoto
             SEPIA,
             GRAYSCALE,
             NEGATIVE,
-            TRANSPARENCY
+            TRANSPARENCY,
+            DARK,
+            BLUE_FILTER,
+            PURPLE
         }
 
         public static float[][] GetBrightnessMatrix(int brightness)
@@ -160,6 +163,48 @@ namespace MyPhoto
                 new float[]{0, 1, 0, 0, 0},
                 new float[]{0, 0, 1, 0, 0},
                 new float[]{0, 0, 0, 0.3f, 0},
+                new float[]{0, 0, 0, 0, 1}
+            };
+
+            return (value > 0) ? matrix : MathUtils.Identity5x5;
+        }
+
+        public static float[][] GetDarkMatrix(int value)
+        {
+            float[][] matrix = new float[][]
+            {
+                new float[]{ 0.276f, 0.0f, 0.0f, 0.000f, 0.0f,},
+                new float[]{ 0.0f, 0.256f, 0.0f, 0.000f, 0.0f},
+                new float[]{ 0.0f, 0.0f, 0.256f, 0.000f, 0.0f,},
+                new float[]{ 0, 0, 0, 1f, 0},
+                new float[]{ 0, 0, 0, 0, 1}
+            };
+
+            return (value > 0) ? matrix : MathUtils.Identity5x5;
+        }
+
+        public static float[][] GetBlueMatrix(int value)
+        {
+            float[][] matrix = new float[][]
+            {
+                new float[]{ 1f, 0f, 0f, 0f, 0f},
+                new float[]{ 0.2f, 1.0f, 0.3f, 1.9f, 3f},
+                new float[]{0.1f, 0f, 1.7f, 0f, 0f,},
+                new float[]{0f, 0f, 0f, 1f, 0.7f},
+                new float[]{0, 0, 0, 0, 1}
+            };
+
+            return (value > 0) ? matrix : MathUtils.Identity5x5;
+        }
+
+        public static float[][] GetPurpleMatrix(int value)
+        {
+            float[][] matrix = new float[][]
+            {
+                new float[]{ 1f, 0f, 0f, 0f, 0f},
+                new float[]{ 0.2f, 1.0f, 0.3f, 1.9f, 3f},
+                new float[]{0.1f, 0f, 1f, 0f, 0f,},
+                new float[]{0f, 0f, 0f, 1f, 0.7f},
                 new float[]{0, 0, 0, 0, 1}
             };
 

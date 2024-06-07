@@ -34,6 +34,12 @@ namespace MyPhoto
             PictureBox = new PictureBox();
             RightPanel = new Panel();
             Filters = new Panel();
+            PurplePictureBox = new PictureBox();
+            PurpleCheckBox = new CheckBox();
+            BluePictureBox = new PictureBox();
+            BlueCheckBox = new CheckBox();
+            DarkPictureBox = new PictureBox();
+            DarkCheckBox = new CheckBox();
             TransparencyPictureBox = new PictureBox();
             GrayscalePictureBox = new PictureBox();
             NegativePictureBox = new PictureBox();
@@ -70,6 +76,9 @@ namespace MyPhoto
             ((System.ComponentModel.ISupportInitialize)PictureBox).BeginInit();
             RightPanel.SuspendLayout();
             Filters.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)PurplePictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)BluePictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DarkPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)TransparencyPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GrayscalePictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NegativePictureBox).BeginInit();
@@ -114,6 +123,12 @@ namespace MyPhoto
             // Filters
             // 
             Filters.AutoScroll = true;
+            Filters.Controls.Add(PurplePictureBox);
+            Filters.Controls.Add(PurpleCheckBox);
+            Filters.Controls.Add(BluePictureBox);
+            Filters.Controls.Add(BlueCheckBox);
+            Filters.Controls.Add(DarkPictureBox);
+            Filters.Controls.Add(DarkCheckBox);
             Filters.Controls.Add(TransparencyPictureBox);
             Filters.Controls.Add(GrayscalePictureBox);
             Filters.Controls.Add(NegativePictureBox);
@@ -127,10 +142,79 @@ namespace MyPhoto
             Filters.Size = new Size(271, 361);
             Filters.TabIndex = 1;
             // 
+            // PurplePictureBox
+            // 
+            PurplePictureBox.Image = Properties.Resources.Purple;
+            PurplePictureBox.Location = new Point(14, 340);
+            PurplePictureBox.Name = "PurplePictureBox";
+            PurplePictureBox.Size = new Size(85, 81);
+            PurplePictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            PurplePictureBox.TabIndex = 13;
+            PurplePictureBox.TabStop = false;
+            // 
+            // PurpleCheckBox
+            // 
+            PurpleCheckBox.AutoSize = true;
+            PurpleCheckBox.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            PurpleCheckBox.ForeColor = SystemColors.Control;
+            PurpleCheckBox.Location = new Point(14, 419);
+            PurpleCheckBox.Name = "PurpleCheckBox";
+            PurpleCheckBox.Size = new Size(67, 21);
+            PurpleCheckBox.TabIndex = 12;
+            PurpleCheckBox.Text = "Purple";
+            PurpleCheckBox.UseVisualStyleBackColor = true;
+            PurpleCheckBox.MouseClick += PurpleCheckBox_CheckedChanged;
+            // 
+            // BluePictureBox
+            // 
+            BluePictureBox.Image = Properties.Resources.Blue;
+            BluePictureBox.Location = new Point(150, 234);
+            BluePictureBox.Name = "BluePictureBox";
+            BluePictureBox.Size = new Size(85, 81);
+            BluePictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            BluePictureBox.TabIndex = 11;
+            BluePictureBox.TabStop = false;
+            // 
+            // BlueCheckBox
+            // 
+            BlueCheckBox.AutoSize = true;
+            BlueCheckBox.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            BlueCheckBox.ForeColor = SystemColors.Control;
+            BlueCheckBox.Location = new Point(150, 313);
+            BlueCheckBox.Name = "BlueCheckBox";
+            BlueCheckBox.Size = new Size(54, 21);
+            BlueCheckBox.TabIndex = 10;
+            BlueCheckBox.Text = "Blue";
+            BlueCheckBox.UseVisualStyleBackColor = true;
+            BlueCheckBox.MouseClick += BlueCheckBox_CheckedChanged;
+            // 
+            // DarkPictureBox
+            // 
+            DarkPictureBox.Image = Properties.Resources.Dark;
+            DarkPictureBox.Location = new Point(14, 234);
+            DarkPictureBox.Name = "DarkPictureBox";
+            DarkPictureBox.Size = new Size(85, 81);
+            DarkPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            DarkPictureBox.TabIndex = 9;
+            DarkPictureBox.TabStop = false;
+            // 
+            // DarkCheckBox
+            // 
+            DarkCheckBox.AutoSize = true;
+            DarkCheckBox.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            DarkCheckBox.ForeColor = SystemColors.Control;
+            DarkCheckBox.Location = new Point(14, 313);
+            DarkCheckBox.Name = "DarkCheckBox";
+            DarkCheckBox.Size = new Size(56, 21);
+            DarkCheckBox.TabIndex = 8;
+            DarkCheckBox.Text = "Dark";
+            DarkCheckBox.UseVisualStyleBackColor = true;
+            DarkCheckBox.MouseClick += DarkCheckBox_CheckedChanged;
+            // 
             // TransparencyPictureBox
             // 
             TransparencyPictureBox.Image = Properties.Resources.Transparency;
-            TransparencyPictureBox.Location = new Point(163, 117);
+            TransparencyPictureBox.Location = new Point(153, 117);
             TransparencyPictureBox.Name = "TransparencyPictureBox";
             TransparencyPictureBox.Size = new Size(85, 81);
             TransparencyPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
@@ -150,7 +234,7 @@ namespace MyPhoto
             // NegativePictureBox
             // 
             NegativePictureBox.Image = Properties.Resources.Negative;
-            NegativePictureBox.Location = new Point(160, 3);
+            NegativePictureBox.Location = new Point(153, 3);
             NegativePictureBox.Name = "NegativePictureBox";
             NegativePictureBox.Size = new Size(85, 81);
             NegativePictureBox.SizeMode = PictureBoxSizeMode.Zoom;
@@ -172,13 +256,13 @@ namespace MyPhoto
             TransparencyCheckBox.AutoSize = true;
             TransparencyCheckBox.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             TransparencyCheckBox.ForeColor = SystemColors.Control;
-            TransparencyCheckBox.Location = new Point(160, 196);
+            TransparencyCheckBox.Location = new Point(150, 196);
             TransparencyCheckBox.Name = "TransparencyCheckBox";
             TransparencyCheckBox.Size = new Size(108, 21);
             TransparencyCheckBox.TabIndex = 3;
             TransparencyCheckBox.Text = "Transparency";
             TransparencyCheckBox.UseVisualStyleBackColor = true;
-            TransparencyCheckBox.CheckedChanged += TransparencyCheckBox_CheckedChanged;
+            TransparencyCheckBox.MouseClick += TransparencyCheckBox_CheckedChanged;
             // 
             // GrayscaleCheckBox
             // 
@@ -191,20 +275,20 @@ namespace MyPhoto
             GrayscaleCheckBox.TabIndex = 2;
             GrayscaleCheckBox.Text = "Grayscale";
             GrayscaleCheckBox.UseVisualStyleBackColor = true;
-            GrayscaleCheckBox.CheckedChanged += GrayscaleCheckBox_CheckedChanged;
+            GrayscaleCheckBox.MouseClick += GrayscaleCheckBox_CheckedChanged;
             // 
             // NegativeCheckBox
             // 
             NegativeCheckBox.AutoSize = true;
             NegativeCheckBox.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             NegativeCheckBox.ForeColor = SystemColors.Control;
-            NegativeCheckBox.Location = new Point(166, 90);
+            NegativeCheckBox.Location = new Point(159, 90);
             NegativeCheckBox.Name = "NegativeCheckBox";
             NegativeCheckBox.Size = new Size(82, 21);
             NegativeCheckBox.TabIndex = 1;
             NegativeCheckBox.Text = "Negative";
             NegativeCheckBox.UseVisualStyleBackColor = true;
-            NegativeCheckBox.CheckedChanged += NegativeCheckBox_CheckedChanged;
+            NegativeCheckBox.MouseClick += NegativeCheckBox_CheckedChanged;
             // 
             // SepiaCheckBox
             // 
@@ -217,7 +301,7 @@ namespace MyPhoto
             SepiaCheckBox.TabIndex = 0;
             SepiaCheckBox.Text = "Sepia";
             SepiaCheckBox.UseVisualStyleBackColor = true;
-            SepiaCheckBox.CheckedChanged += SepiaCheckBox_CheckedChanged;
+            SepiaCheckBox.MouseClick += SepiaCheckBox_CheckedChanged;
             // 
             // ChannelsBox
             // 
@@ -537,6 +621,9 @@ namespace MyPhoto
             RightPanel.ResumeLayout(false);
             Filters.ResumeLayout(false);
             Filters.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)PurplePictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)BluePictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DarkPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)TransparencyPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)GrayscalePictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)NegativePictureBox).EndInit();
@@ -596,5 +683,11 @@ namespace MyPhoto
 
         private History history;
         private ImageOriginator originator;
+        private PictureBox BluePictureBox;
+        private CheckBox BlueCheckBox;
+        private PictureBox DarkPictureBox;
+        private CheckBox DarkCheckBox;
+        private PictureBox PurplePictureBox;
+        private CheckBox PurpleCheckBox;
     }
 }
