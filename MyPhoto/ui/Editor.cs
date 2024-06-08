@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyPhoto.Core;
-using MyPhoto.utils;
+using MyPhoto.Utils;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace MyPhoto

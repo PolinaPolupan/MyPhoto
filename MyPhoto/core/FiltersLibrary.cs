@@ -5,9 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using MyPhoto.utils;
+using MyPhoto.Utils;
 
-namespace MyPhoto
+namespace MyPhoto.Core
 {
     internal static class FiltersLibrary
     {

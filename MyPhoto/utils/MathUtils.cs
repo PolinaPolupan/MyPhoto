@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPhoto.utils
+namespace MyPhoto.Utils
 {
     internal static class MathUtils
     {

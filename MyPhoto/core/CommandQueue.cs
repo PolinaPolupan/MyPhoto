@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyPhoto.utils;
+using MyPhoto.Utils;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static MyPhoto.FiltersLibrary;
 
 namespace MyPhoto.Core
 {

@@ -1,5 +1,5 @@
 using MyPhoto.Core;
-using MyPhoto.utils;
+using MyPhoto.Utils;
 
 namespace MyPhoto
 {

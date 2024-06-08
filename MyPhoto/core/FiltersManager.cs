@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace MyPhoto
+namespace MyPhoto.Core
 {
     internal static class FiltersManager
     {

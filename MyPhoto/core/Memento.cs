@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Markup;
 using MyPhoto.Core;
 
-namespace MyPhoto
+namespace MyPhoto.Core
 {
     internal class ImageMemento
     {
