@@ -4,86 +4,110 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
-using MyPhoto.core;
+using MyPhoto.Core;
 
 namespace MyPhoto
 {
     internal class ImageMemento
     {
-        private Image? image = null;
-        private Dictionary<FiltersLibrary.Filter, int> values;
+        private Image? _image = null;
+        private Dictionary<FiltersLibrary.Filter, int> _values;
+        private List<FiltersLibrary.Filter> _activeFilters;
 
-        public ImageMemento(Image image, Dictionary<FiltersLibrary.Filter, int> values)
+        public ImageMemento(Image image, Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
         {
-            this.image = image;
-            this.values = values;
+            _image = image;
+            _values = values;
+            _activeFilters = activeFilters;
         }
 
-        public ImageMemento(Dictionary<FiltersLibrary.Filter, int> values)
+        public ImageMemento(Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
         {
-            this.values = values;
+            _values = values;
+            _activeFilters = activeFilters;
         }
 
         public Image? GetSavedImage()
         {
-            return image;
+            return _image;
         }
 
         public Dictionary<FiltersLibrary.Filter, int> GetSavedValues()
         {
-            return new Dictionary<FiltersLibrary.Filter, int>(values);
+            return new Dictionary<FiltersLibrary.Filter, int>(_values);
+        }
+
+        public List<FiltersLibrary.Filter> GetSavedActiveFilters()
+        {
+            return new List<FiltersLibrary.Filter>(_activeFilters);
         }
 
         public void ReleaseResources()
         {
-            image?.Dispose();
+            _image?.Dispose();
         }
     }
 
     internal class ImageOriginator
     {
-        private Image? image = null;
-        private Dictionary<FiltersLibrary.Filter, int> values;
+        private Image? _image = null;
+        private Dictionary<FiltersLibrary.Filter, int> _values;
+        private List<FiltersLibrary.Filter> _activeFilters;
 
-        public ImageOriginator(Image? image, Dictionary<FiltersLibrary.Filter, int> values)
+        public ImageOriginator(Image? image, Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
         {
-            this.image = image;
-            this.values = values;
+            _image = image;
+            _values = values;
+            _activeFilters = activeFilters;
         }
 
-        public void UpdateImage(Image image)
+        public void Update(Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters, Image image)
         {
-            this.image = image;
+            _image = image;
+            _values = values;
+            _activeFilters = activeFilters;
         }
 
-        public void UpdateValues(Dictionary<FiltersLibrary.Filter, int> values)
+        public void Update(Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
         {
-            this.values = values;
+            _values = values;
+            _activeFilters = activeFilters;
+        }
+
+        public void UpdateActiveFilters(List<FiltersLibrary.Filter> activeFilters)
+        {
+            _activeFilters = activeFilters;
         }
 
         public Image? GetImage()
         {
-            return image;
+            return _image;
         }
 
         public Dictionary<FiltersLibrary.Filter, int> GetValues()
         { 
-            return values;
+            return _values;
+        }
+
+        public List<FiltersLibrary.Filter> GetActiveFilters()
+        {
+            return _activeFilters;
         }
 
         public ImageMemento CreateMemento()
         {
-            if (image != null)
+            if (_image != null)
             {
-                return new ImageMemento(this.image, this.values);
+                return new ImageMemento(_image, _values, _activeFilters);
             }
-            return new ImageMemento(this.values);
+            return new ImageMemento(_values, _activeFilters);
         }
 
         public void RestoreFromMemento(ImageMemento memento)
         {
-            this.image = memento.GetSavedImage();
-            this.values = memento.GetSavedValues();
+            _image = memento.GetSavedImage();
+            _values = memento.GetSavedValues();
+            _activeFilters = memento.GetSavedActiveFilters();
         }
     }
 

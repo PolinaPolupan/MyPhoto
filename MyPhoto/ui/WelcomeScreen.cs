@@ -1,4 +1,4 @@
-using MyPhoto.core;
+using MyPhoto.Core;
 using MyPhoto.utils;
 
 namespace MyPhoto

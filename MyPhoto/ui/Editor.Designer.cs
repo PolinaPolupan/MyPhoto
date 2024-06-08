@@ -1,5 +1,5 @@
 ﻿using System.Drawing.Imaging;
-using MyPhoto.core;
+using MyPhoto.Core;
 
 namespace MyPhoto
 {

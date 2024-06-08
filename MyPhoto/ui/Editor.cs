@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MyPhoto.core;
+using MyPhoto.Core;
 using MyPhoto.utils;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -30,13 +30,17 @@ namespace MyPhoto
 
         private void SaveState(bool saveImage = false)
         {
-            var values = CommandQueue.GetCommandState();
-            originator.UpdateValues(values);
+            var values = CommandQueue.GetValues();
+            var activeFilters = CommandQueue.GetActiveFilters();
 
             if (saveImage)
             {
                 var image = (System.Drawing.Image)PictureBox.Image.Clone();
-                originator.UpdateImage(image);
+                originator.Update(values, activeFilters, image);
+            }
+            else
+            {
+                originator.Update(values, activeFilters);
             }
 
             history.AddMemento(originator.CreateMemento());
@@ -53,8 +57,8 @@ namespace MyPhoto
         {
             ResetAll();
             var image = (System.Drawing.Image)PictureBox.Image.Clone();
-            history = new History(new ImageMemento(image, CommandQueue.GetCommandState()));
-            originator = new ImageOriginator(image, CommandQueue.GetCommandState());
+            history = new History(new ImageMemento(image, CommandQueue.GetValues(), CommandQueue.GetActiveFilters()));
+            originator = new ImageOriginator(image, CommandQueue.GetValues(), CommandQueue.GetActiveFilters());
             UpdateUi();
             ReloadPictureBox();
         }
@@ -105,8 +109,9 @@ namespace MyPhoto
                 var image = (System.Drawing.Image)ImageEditorState.image.Clone();
 
                 history.ResetHistory();
-                originator.UpdateImage(image);
-                originator.UpdateValues(CommandQueue.GetCommandState());
+
+                originator.Update(CommandQueue.GetValues(), CommandQueue.GetActiveFilters(), image);
+
                 history.Initialize(originator.CreateMemento());
 
                 UpdateUi();
@@ -287,13 +292,15 @@ namespace MyPhoto
 
             var image = originator.GetImage();
             var values = originator.GetValues();
+            var activeFilters = originator.GetActiveFilters();
 
             if (image != null)
             {
                 ImageEditorState.image = (System.Drawing.Image)image.Clone();
             }
 
-            CommandQueue.UpdateCommandState(values);
+            CommandQueue.SetValues(values);
+            CommandQueue.SetActiveFilters(activeFilters);
             UpdateUi();
 
             Console.WriteLine(history.currentIndex);
@@ -311,12 +318,14 @@ namespace MyPhoto
 
             var image = originator.GetImage();
             var values = originator.GetValues();
+            var activeFilters = originator.GetActiveFilters();
 
             if (image != null)
             {
                 ImageEditorState.image = (System.Drawing.Image)image.Clone();
             }
-            CommandQueue.UpdateCommandState(values);
+            CommandQueue.SetValues(values);
+            CommandQueue.SetActiveFilters(activeFilters);
             UpdateUi();
 
             Console.WriteLine(history.currentIndex);
@@ -344,8 +353,6 @@ namespace MyPhoto
         private bool IsRedoEnabled()
         {
             return history.IsRedoEnabled();
-        }
-
-        
+        }      
     }
 }

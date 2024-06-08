@@ -5,13 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using MyPhoto.utils;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static MyPhoto.FiltersLibrary;
 
-namespace MyPhoto.core
+namespace MyPhoto.Core
 {
     internal static class CommandQueue
     {
-        private static Dictionary<FiltersLibrary.Filter, int> _filtersValuesMapping = new Dictionary<FiltersLibrary.Filter, int>();
-        private static Dictionary<FiltersLibrary.Filter, Func<int, float[][]>> _filtersActionsMapping = new Dictionary<FiltersLibrary.Filter, Func<int, float[][]>>()
+        /// <summary>
+        /// _activeFilters list saves the filters, which are applied to the image at the current moment
+        /// </summary>
+        private static List<FiltersLibrary.Filter> _activeFilters = [];
+        /// <summary>
+        /// _filtersValues dictionary saves the filters with the appropriate values (examples: intensity, slider value)
+        /// </summary>
+        private static Dictionary<FiltersLibrary.Filter, int> _filtersValues = [];
+        /// <summary>
+        /// _filtersActions is a container, that maps filters to the functions of the Filters Library
+        /// </summary>
+        private static Dictionary<FiltersLibrary.Filter, Func<int, float[][]>> _filtersActions = new Dictionary<FiltersLibrary.Filter, Func<int, float[][]>>()
         {
             { FiltersLibrary.Filter.BRIGHTNESS, FiltersLibrary.GetBrightnessMatrix },
             { FiltersLibrary.Filter.CONTRAST, FiltersLibrary.GetContrastMatrix },
@@ -27,7 +38,9 @@ namespace MyPhoto.core
             { FiltersLibrary.Filter.BLUE_FILTER, FiltersLibrary.GetBlueMatrix },
             { FiltersLibrary.Filter.PURPLE, FiltersLibrary.GetPurpleMatrix },
         };
-
+        /// <summary>
+        /// _defaultFiltersValues saves the default values of filters
+        /// </summary>
         private static Dictionary<FiltersLibrary.Filter, int> _defaultFiltersValues = new Dictionary<FiltersLibrary.Filter, int>()
         {
             { FiltersLibrary.Filter.BRIGHTNESS, 0 },
@@ -45,12 +58,32 @@ namespace MyPhoto.core
             { FiltersLibrary.Filter.PURPLE, 0 },
         };
 
+        private static void UpdateActiveFilters()
+        {
+            // Iterating over the list in reverse order to avoid
+            // "Collection was modified; enumeration operation may not execute"
+            // exception
+            for (int i = _activeFilters.Count - 1; i >= 0; i--)
+            {
+                if (GetValue(_activeFilters[i]) == _defaultFiltersValues[_activeFilters[i]])
+                {
+                    _activeFilters.Remove(_activeFilters[i]);
+                }
+            }
+        }
+
+        private static void AddActiveFilter(FiltersLibrary.Filter filter)
+        {
+            _activeFilters.Add(filter);
+            UpdateActiveFilters();
+        }
+
         public static float[][] ApplyAll()
         {
             float[][] matrix = MathUtils.Identity5x5;
-            foreach (KeyValuePair<FiltersLibrary.Filter, int> entry in _filtersValuesMapping)
+            foreach (FiltersLibrary.Filter filter in _activeFilters)
             {
-                var res = _filtersActionsMapping[entry.Key].Invoke(entry.Value);
+                var res = _filtersActions[filter].Invoke(_filtersValues[filter]);
                 matrix = MathUtils.Multiply(res, matrix);
             }
             return matrix;
@@ -58,36 +91,39 @@ namespace MyPhoto.core
 
         public static void AddFilterCommand(FiltersLibrary.Filter filter, int value)
         {
-            _filtersValuesMapping[filter] = value;
+            _filtersValues[filter] = value;
+            AddActiveFilter(filter);
         }
 
-        private static void AddFunctionCommand(FiltersLibrary.Filter filter, Func<int, float[][]> func)
+        public static Dictionary<FiltersLibrary.Filter, int> GetValues()
         {
-            _filtersActionsMapping[filter] = func;
+            return new Dictionary<FiltersLibrary.Filter, int>(_filtersValues);
         }
 
-        public static Dictionary<FiltersLibrary.Filter, int> GetCommandState()
+        public static List<FiltersLibrary.Filter> GetActiveFilters()
         {
-            return new Dictionary<FiltersLibrary.Filter, int>(_filtersValuesMapping);
+            return new List<FiltersLibrary.Filter>(_activeFilters);
         }
 
-        public static void UpdateCommandState(Dictionary<FiltersLibrary.Filter, int> values)
+        public static void SetValues(Dictionary<FiltersLibrary.Filter, int> values)
         {
-            _filtersValuesMapping = values;
+            _filtersValues = values;
+        }
+
+        public static void SetActiveFilters(List<FiltersLibrary.Filter> activeFilters)
+        {
+            _activeFilters = activeFilters;
         }
 
         public static int GetValue(FiltersLibrary.Filter filter)
         {
-            return _filtersValuesMapping.TryGetValue(filter, out var temp) ? temp : _defaultFiltersValues[filter];
+            return _filtersValues.TryGetValue(filter, out var temp) ? temp : _defaultFiltersValues[filter];
         }
 
         public static void ResetAll()
         {
-            _filtersValuesMapping.Clear();
-            foreach (FiltersLibrary.Filter entry in Enum.GetValues(typeof(FiltersLibrary.Filter)))
-            {
-                AddFilterCommand(entry, _defaultFiltersValues[entry]);
-            }
+            _filtersValues.Clear();
+            _activeFilters.Clear();
         }
     }
 }
