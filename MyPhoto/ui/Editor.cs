@@ -55,12 +55,11 @@ namespace MyPhoto
 
         private void Editor_Load(object sender, EventArgs e)
         {
-            ResetAll();
+            ReloadPictureBox();
+
             var image = (System.Drawing.Image)PictureBox.Image.Clone();
             history = new History(new ImageMemento(image, CommandQueue.GetValues(), CommandQueue.GetActiveFilters()));
             originator = new ImageOriginator(image, CommandQueue.GetValues(), CommandQueue.GetActiveFilters());
-            UpdateUi();
-            ReloadPictureBox();
         }
 
         private void UpdateUi()
@@ -95,6 +94,7 @@ namespace MyPhoto
         private void ResetAll()
         {
             FiltersManager.ResetAll();
+
             ReloadPictureBox();
         }
 
@@ -106,6 +106,7 @@ namespace MyPhoto
                 CommandQueue.ResetAll();
                 ReloadPictureBox(); // Reapply all of the filters
 
+                Debug.Assert(ImageEditorState.image != null); // What if the image == null? Resolve issue
                 var image = (System.Drawing.Image)ImageEditorState.image.Clone();
 
                 history.ResetHistory();
@@ -243,7 +244,9 @@ namespace MyPhoto
         private void PictureBox_Down(object sender, EventArgs e)
         {
             ReleasePictureBoxResources();
-            PictureBox.Image = (System.Drawing.Image)ImageEditorState.image.Clone();
+            var image = history.GetInitialMemento().GetSavedImage();
+            Debug.Assert(image != null);
+            PictureBox.Image = (System.Drawing.Image)image.Clone();
         }
 
         private void PictureBox_Up(object sender, MouseEventArgs e)
@@ -256,7 +259,11 @@ namespace MyPhoto
             ReleasePictureBoxResources();
             var image = (System.Drawing.Image)ImageEditorState.image.Clone();
             ImageEditorState.image?.Dispose();
+
+            Cursor = Cursors.WaitCursor; // change cursor to hourglass type
             ImageEditorState.image = FiltersManager.ApplyGaussianBlur(image, 9.25f);
+            Cursor = Cursors.Arrow; // change cursor to normal type
+
             image.Dispose();
             ReloadPictureBox();
             SaveState(true);
@@ -267,7 +274,11 @@ namespace MyPhoto
             ReleasePictureBoxResources();
             var image = (System.Drawing.Image)ImageEditorState.image.Clone();
             ImageEditorState.image?.Dispose();
+
+            Cursor = Cursors.WaitCursor; // change cursor to hourglass type
             ImageEditorState.image = FiltersManager.ApplyMedianBlur(image, 9);
+            Cursor = Cursors.Arrow; // change cursor to normal type
+
             image.Dispose();
             ReloadPictureBox();
             SaveState(true);
@@ -278,7 +289,11 @@ namespace MyPhoto
             ReleasePictureBoxResources();
             var image = (System.Drawing.Image)ImageEditorState.image.Clone();
             ImageEditorState.image?.Dispose();
+
+            Cursor = Cursors.WaitCursor; // change cursor to hourglass type
             ImageEditorState.image = FiltersManager.ApplyCartoon(image, 9);
+            Cursor = Cursors.Arrow; // change cursor to normal type
+
             image.Dispose();
             ReloadPictureBox();
             SaveState(true);
@@ -295,17 +310,11 @@ namespace MyPhoto
             var activeFilters = originator.GetActiveFilters();
 
             if (image != null)
-            {
                 ImageEditorState.image = (System.Drawing.Image)image.Clone();
-            }
 
             CommandQueue.SetValues(values);
             CommandQueue.SetActiveFilters(activeFilters);
             UpdateUi();
-
-            Console.WriteLine(history.currentIndex);
-            Console.WriteLine(history.mementos.Count);
-            Console.WriteLine("\n");
 
             ReloadPictureBox();
         }
@@ -321,16 +330,11 @@ namespace MyPhoto
             var activeFilters = originator.GetActiveFilters();
 
             if (image != null)
-            {
                 ImageEditorState.image = (System.Drawing.Image)image.Clone();
-            }
+
             CommandQueue.SetValues(values);
             CommandQueue.SetActiveFilters(activeFilters);
             UpdateUi();
-
-            Console.WriteLine(history.currentIndex);
-            Console.WriteLine(history.mementos.Count);
-            Console.WriteLine("\n");
 
             ReloadPictureBox();
         }

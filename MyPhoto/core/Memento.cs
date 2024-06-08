@@ -144,6 +144,11 @@ namespace MyPhoto.Core
             mementos.Add(memento);
         }
 
+        public ImageMemento GetInitialMemento()
+        {
+            return mementos[0];
+        }
+
         public ImageMemento GetPrevious()
         {
             currentIndex--;

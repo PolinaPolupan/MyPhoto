@@ -140,7 +140,7 @@ namespace MyPhoto
             Filters.Controls.Add(SepiaCheckBox);
             Filters.Location = new Point(3, 229);
             Filters.Name = "Filters";
-            Filters.Size = new Size(271, 361);
+            Filters.Size = new Size(280, 361);
             Filters.TabIndex = 1;
             // 
             // PurplePictureBox
@@ -410,7 +410,7 @@ namespace MyPhoto
             RedoButton.FlatStyle = FlatStyle.Flat;
             RedoButton.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             RedoButton.ForeColor = SystemColors.Control;
-            RedoButton.Location = new Point(887, 3);
+            RedoButton.Location = new Point(887, 4);
             RedoButton.Name = "RedoButton";
             RedoButton.Size = new Size(55, 23);
             RedoButton.TabIndex = 6;
@@ -424,7 +424,7 @@ namespace MyPhoto
             UndoButton.FlatStyle = FlatStyle.Flat;
             UndoButton.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             UndoButton.ForeColor = SystemColors.Control;
-            UndoButton.Location = new Point(825, 3);
+            UndoButton.Location = new Point(825, 4);
             UndoButton.Name = "UndoButton";
             UndoButton.Size = new Size(59, 23);
             UndoButton.TabIndex = 5;
