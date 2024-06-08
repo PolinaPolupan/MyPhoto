@@ -25,7 +25,8 @@ namespace MyPhoto.Core
             TRANSPARENCY,
             DARK,
             BLUE_FILTER,
-            PURPLE
+            PURPLE,
+            HUE
         }
 
         public static float[][] GetBrightnessMatrix(int brightness)
@@ -210,6 +211,29 @@ namespace MyPhoto.Core
             };
 
             return (value > 0) ? matrix : MathUtils.Identity5x5;
+        }
+
+        public static float[][] GetHueMatrix(int value)
+        {
+            var h = Math.PI * value / 180.0;
+
+            float cosVal = (float)Math.Cos(h);
+            float sinVal = (float)Math.Sin(h);
+
+            float lumR = 0.213f;
+            float lumG = 0.715f;
+            float lumB = 0.072f;
+
+            float[][] matrix = new float[][]
+            {
+                new float[]{ lumR + cosVal * (1 - lumR) + sinVal * (-lumR), lumG + cosVal * (-lumG) + sinVal * (-lumG), lumB + cosVal * (-lumB) + sinVal * (1 - lumB), 0f, 0f},
+                new float[]{ lumR + cosVal * (-lumR) + sinVal * (0.143f), lumG + cosVal * (1 - lumG) + sinVal * (0.140f), lumB + cosVal * (-lumB) + sinVal * (-0.283f), 0f, 0f},
+                new float[]{ lumR + cosVal * (-lumR) + sinVal * (-(1 - lumR)), lumG + cosVal * (-lumG) + sinVal * (lumG), lumB + cosVal * (1 - lumB) + sinVal * (lumB), 0f, 0f,},
+                new float[]{0f, 0f, 0f, 1f, 0f},
+                new float[]{0, 0, 0, 0, 1}
+            };
+
+            return matrix;
         }
 
         public static double[,] GaussianBlur(int length, double weight)

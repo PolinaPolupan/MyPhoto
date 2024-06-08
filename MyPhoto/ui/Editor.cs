@@ -67,6 +67,7 @@ namespace MyPhoto
             BrightnessSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.BRIGHTNESS);
             ContrastSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.CONTRAST);
             SaturationSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.SATURATION);
+            HueSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.HUE);
             RedChannelSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.RED);
             GreenChannelSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.GREEN);
             BlueChannelSlider.Value = CommandQueue.GetValue(FiltersLibrary.Filter.BLUE);
@@ -189,6 +190,12 @@ namespace MyPhoto
         {
             ReleasePictureBoxResources();
             PictureBox.Image = FiltersManager.ApplyBlueChannel(ref ImageEditorState.image, BlueChannelSlider.Value);
+            SaveState();
+        }
+        private void HueSlider_Scroll(object sender, EventArgs e)
+        {
+            ReleasePictureBoxResources();
+            PictureBox.Image = FiltersManager.ApplyHue(ref ImageEditorState.image, HueSlider.Value);
             SaveState();
         }
 

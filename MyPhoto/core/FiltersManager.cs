@@ -85,6 +85,12 @@ namespace MyPhoto.Core
             return ApplyColorMatrix(ref image);
         }
 
+        public static Bitmap ApplyHue(ref Image image, int value)
+        {
+            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.HUE, value);
+            return ApplyColorMatrix(ref image);
+        }
+
         public static Bitmap ApplyRedChannel(ref Image image, int red)
         {
             CommandQueue.AddFilterCommand(FiltersLibrary.Filter.RED, red);

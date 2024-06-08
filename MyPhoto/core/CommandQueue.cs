@@ -36,6 +36,7 @@ namespace MyPhoto.Core
             { FiltersLibrary.Filter.DARK, FiltersLibrary.GetDarkMatrix },
             { FiltersLibrary.Filter.BLUE_FILTER, FiltersLibrary.GetBlueMatrix },
             { FiltersLibrary.Filter.PURPLE, FiltersLibrary.GetPurpleMatrix },
+            { FiltersLibrary.Filter.HUE, FiltersLibrary.GetHueMatrix },
         };
         /// <summary>
         /// _defaultFiltersValues saves the default values of filters
@@ -55,6 +56,7 @@ namespace MyPhoto.Core
             { FiltersLibrary.Filter.DARK, 0 },
             { FiltersLibrary.Filter.BLUE_FILTER, 0 },
             { FiltersLibrary.Filter.PURPLE, 0 },
+            { FiltersLibrary.Filter.HUE, 0 },
         };
 
         private static void UpdateActiveFilters()
