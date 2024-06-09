@@ -1,7 +1,7 @@
 ﻿using System.Drawing.Imaging;
 using MyPhoto.Core;
 
-namespace MyPhoto
+namespace MyPhoto.Ui
 {
     partial class Editor
     {
@@ -146,7 +146,8 @@ namespace MyPhoto
             // HueSlider
             // 
             HueSlider.Location = new Point(4, 397);
-            HueSlider.Minimum = -10;
+            HueSlider.Maximum = 100;
+            HueSlider.Minimum = -100;
             HueSlider.Name = "HueSlider";
             HueSlider.Size = new Size(279, 45);
             HueSlider.TabIndex = 7;
@@ -708,9 +709,7 @@ namespace MyPhoto
         private Button PencilButton;
         private Button UndoButton;
         private Button RedoButton;
-
-        private History history;
-        private ImageOriginator originator;
+      
         private PictureBox BluePictureBox;
         private CheckBox BlueCheckBox;
         private PictureBox DarkPictureBox;
@@ -719,5 +718,10 @@ namespace MyPhoto
         private CheckBox PurpleCheckBox;
         private Label HueLabel;
         private TrackBar HueSlider;
+
+        private FiltersManager _filtersManager;
+        private CommandQueue _commandQueue;
+        private History _history;
+        private ImageOriginator _originator;
     }
 }

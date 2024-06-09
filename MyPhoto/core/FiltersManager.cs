@@ -13,9 +13,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MyPhoto.Core
 {
-    internal static class FiltersManager
+    internal class FiltersManager(CommandQueue commandQueue)
     {
-        private static Bitmap ApplyColorMatrix(ref Image image)
+        private readonly CommandQueue _commandQueue = commandQueue;
+
+        private Bitmap ApplyColorMatrix(ref Image image)
         {
             int width = image.Width;
             int height = image.Height;
@@ -24,7 +26,7 @@ namespace MyPhoto.Core
             using var attributes = new ImageAttributes();
 
             // Get the resulting matrix
-            ColorMatrix colorMatrix = new ColorMatrix(CommandQueue.ApplyAll());
+            ColorMatrix colorMatrix = new ColorMatrix(_commandQueue.ApplyAll());
             
             attributes.SetColorMatrix(colorMatrix);
             g.DrawImage(image, new Rectangle(0, 0, width, height),
@@ -33,113 +35,138 @@ namespace MyPhoto.Core
             return bitmap;
         }
 
-        public static void ResetAll()
+        public void ResetAll()
         {
-            CommandQueue.ResetAll();
+            _commandQueue.ResetAll();
         }
 
-        public static Bitmap Reload(ref Image image)
+        public Bitmap Reload(ref Image image)
         {
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplySepia(ref Image image, int value)
+        public Bitmap ApplySepia(ref Image image, int value)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.SEPIA, value);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.SEPIA, value);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyGrayscale(ref Image image, int value)
+        public Bitmap ApplyGrayscale(ref Image image, int value)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.GRAYSCALE, value);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.GRAYSCALE, value);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyNegative(ref Image image, int value)
+        public Bitmap ApplyNegative(ref Image image, int value)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.NEGATIVE, value);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.NEGATIVE, value);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyTransparency(ref Image image, int value)
+        public Bitmap ApplyTransparency(ref Image image, int value)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.TRANSPARENCY, value);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.TRANSPARENCY, value);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyBrightness(ref Image image, int brightness)
+        public Bitmap ApplyBrightness(ref Image image, int brightness)
         {      
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.BRIGHTNESS, brightness);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.BRIGHTNESS, brightness);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyContrast(ref Image image, int contrast)
+        public Bitmap ApplyContrast(ref Image image, int contrast)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.CONTRAST, contrast);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.CONTRAST, contrast);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplySaturation(ref Image image, int sat)
+        public Bitmap ApplySaturation(ref Image image, int sat)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.SATURATION, sat);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.SATURATION, sat);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyHue(ref Image image, int value)
+        public Bitmap ApplyHue(ref Image image, int value)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.HUE, value);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.HUE, value);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyRedChannel(ref Image image, int red)
+        public Bitmap ApplyRedChannel(ref Image image, int red)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.RED, red);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.RED, red);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyGreenChannel(ref Image image, int green)
+        public Bitmap ApplyGreenChannel(ref Image image, int green)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.GREEN, green);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.GREEN, green);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyBlueChannel(ref Image image, int blue)
+        public Bitmap ApplyBlueChannel(ref Image image, int blue)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.BLUE, blue);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.BLUE, blue);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyDark(ref Image image, int value)
+        public Bitmap ApplyDark(ref Image image, int value)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.DARK, value);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.DARK, value);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyBlue(ref Image image, int value)
+        public Bitmap ApplyBlue(ref Image image, int value)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.BLUE_FILTER, value);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.BLUE_FILTER, value);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyPurple(ref Image image, int value)
+        public Bitmap ApplyPurple(ref Image image, int value)
         {
-            CommandQueue.AddFilterCommand(FiltersLibrary.Filter.PURPLE, value);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.PURPLE, value);
             return ApplyColorMatrix(ref image);
         }
 
-        public static Bitmap ApplyGaussianBlur(Image image, float weight)
+        public Bitmap ApplyGaussianBlur(Image image, float weight)
         {
             return FiltersLibrary.Convolve((System.Drawing.Bitmap)image, FiltersLibrary.GaussianBlur(7, weight));
         }
 
-        public static Bitmap ApplyMedianBlur(Image image, int matrixSize)
+        public Bitmap ApplyMedianBlur(Image image, int matrixSize)
         {
             return FiltersLibrary.MedianFilter((System.Drawing.Bitmap)image, matrixSize);
         }
 
-        public static Bitmap ApplyCartoon(Image image, byte threshold = 0)
+        public Bitmap ApplyCartoon(Image image, byte threshold = 0)
         {
             return FiltersLibrary.GradientBasedEdgeDetectionFilter((System.Drawing.Bitmap)image, threshold);
+        }
+
+        public List<FiltersLibrary.Filter> GetActiveFilters()
+        {
+            return _commandQueue.GetActiveFilters();
+        }
+
+        public Dictionary<FiltersLibrary.Filter, int> GetValues()
+        {
+            return _commandQueue.GetValues();
+        }
+
+        public void SetValues(Dictionary<FiltersLibrary.Filter, int> values)
+        {
+            _commandQueue.SetValues(values);
+        }
+
+        public void SetActiveFilters(List<FiltersLibrary.Filter> activeFilters)
+        {
+            _commandQueue.SetActiveFilters(activeFilters);
+        }
+
+        public int GetValue(FiltersLibrary.Filter filter)
+        {
+            return _commandQueue.GetValue(filter);
         }
     }
 }

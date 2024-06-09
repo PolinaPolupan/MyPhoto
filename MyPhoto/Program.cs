@@ -1,4 +1,4 @@
-namespace MyPhoto
+namespace MyPhoto.Ui
 {
     internal static class Program
     {

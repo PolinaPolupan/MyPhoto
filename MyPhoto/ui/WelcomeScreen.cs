@@ -1,7 +1,7 @@
 using MyPhoto.Core;
 using MyPhoto.Utils;
 
-namespace MyPhoto
+namespace MyPhoto.Ui
 {
     public partial class WelcomeScreen : Form
     {

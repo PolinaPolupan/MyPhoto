@@ -215,7 +215,7 @@ namespace MyPhoto.Core
 
         public static float[][] GetHueMatrix(int value)
         {
-            var h = Math.PI * value / 180.0;
+            float h = (float)Math.PI * value / 180.0f;
 
             float cosVal = (float)Math.Cos(h);
             float sinVal = (float)Math.Sin(h);
@@ -230,7 +230,7 @@ namespace MyPhoto.Core
                 new float[]{ lumR + cosVal * (-lumR) + sinVal * (0.143f), lumG + cosVal * (1 - lumG) + sinVal * (0.140f), lumB + cosVal * (-lumB) + sinVal * (-0.283f), 0f, 0f},
                 new float[]{ lumR + cosVal * (-lumR) + sinVal * (-(1 - lumR)), lumG + cosVal * (-lumG) + sinVal * (lumG), lumB + cosVal * (1 - lumB) + sinVal * (lumB), 0f, 0f,},
                 new float[]{0f, 0f, 0f, 1f, 0f},
-                new float[]{0, 0, 0, 0, 1}
+                new float[]{0, 0, 0, 0, 1f}
             };
 
             return matrix;

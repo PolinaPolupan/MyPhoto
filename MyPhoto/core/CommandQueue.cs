@@ -8,20 +8,20 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MyPhoto.Core
 {
-    internal static class CommandQueue
+    internal class CommandQueue
     {
         /// <summary>
         /// _activeFilters list saves the filters, which are applied to the image at the current moment
         /// </summary>
-        private static List<FiltersLibrary.Filter> _activeFilters = [];
+        private List<FiltersLibrary.Filter> _activeFilters = [];
         /// <summary>
         /// _filtersValues dictionary saves the filters with the appropriate values (examples: intensity, slider value)
         /// </summary>
-        private static Dictionary<FiltersLibrary.Filter, int> _filtersValues = [];
+        private Dictionary<FiltersLibrary.Filter, int> _filtersValues = [];
         /// <summary>
         /// _filtersActions is a container, that maps filters to the functions of the Filters Library
         /// </summary>
-        private static Dictionary<FiltersLibrary.Filter, Func<int, float[][]>> _filtersActions = new Dictionary<FiltersLibrary.Filter, Func<int, float[][]>>()
+        private Dictionary<FiltersLibrary.Filter, Func<int, float[][]>> _filtersActions = new Dictionary<FiltersLibrary.Filter, Func<int, float[][]>>()
         {
             { FiltersLibrary.Filter.BRIGHTNESS, FiltersLibrary.GetBrightnessMatrix },
             { FiltersLibrary.Filter.CONTRAST, FiltersLibrary.GetContrastMatrix },
@@ -41,7 +41,7 @@ namespace MyPhoto.Core
         /// <summary>
         /// _defaultFiltersValues saves the default values of filters
         /// </summary>
-        private static Dictionary<FiltersLibrary.Filter, int> _defaultFiltersValues = new Dictionary<FiltersLibrary.Filter, int>()
+        private Dictionary<FiltersLibrary.Filter, int> _defaultFiltersValues = new Dictionary<FiltersLibrary.Filter, int>()
         {
             { FiltersLibrary.Filter.BRIGHTNESS, 0 },
             { FiltersLibrary.Filter.CONTRAST, 100 },
@@ -59,7 +59,7 @@ namespace MyPhoto.Core
             { FiltersLibrary.Filter.HUE, 0 },
         };
 
-        private static void UpdateActiveFilters()
+        private void UpdateActiveFilters()
         {
             // Iterating over the list in reverse order to avoid
             // "Collection was modified; enumeration operation may not execute"
@@ -73,13 +73,16 @@ namespace MyPhoto.Core
             }
         }
 
-        private static void AddActiveFilter(FiltersLibrary.Filter filter)
+        private void AddActiveFilter(FiltersLibrary.Filter filter)
         {
-            _activeFilters.Add(filter);
+            if (!_activeFilters.Contains(filter))
+            {
+                _activeFilters.Add(filter);
+            }            
             UpdateActiveFilters();
         }
 
-        public static float[][] ApplyAll()
+        public float[][] ApplyAll()
         {
             float[][] matrix = MathUtils.Identity5x5;
             foreach (FiltersLibrary.Filter filter in _activeFilters)
@@ -90,38 +93,38 @@ namespace MyPhoto.Core
             return matrix;
         }
 
-        public static void AddFilterCommand(FiltersLibrary.Filter filter, int value)
+        public void AddFilterCommand(FiltersLibrary.Filter filter, int value)
         {
             _filtersValues[filter] = value;
             AddActiveFilter(filter);
         }
 
-        public static Dictionary<FiltersLibrary.Filter, int> GetValues()
+        public Dictionary<FiltersLibrary.Filter, int> GetValues()
         {
             return new Dictionary<FiltersLibrary.Filter, int>(_filtersValues);
         }
 
-        public static List<FiltersLibrary.Filter> GetActiveFilters()
+        public List<FiltersLibrary.Filter> GetActiveFilters()
         {
             return new List<FiltersLibrary.Filter>(_activeFilters);
         }
 
-        public static void SetValues(Dictionary<FiltersLibrary.Filter, int> values)
+        public void SetValues(Dictionary<FiltersLibrary.Filter, int> values)
         {
             _filtersValues = values;
         }
 
-        public static void SetActiveFilters(List<FiltersLibrary.Filter> activeFilters)
+        public void SetActiveFilters(List<FiltersLibrary.Filter> activeFilters)
         {
             _activeFilters = activeFilters;
         }
 
-        public static int GetValue(FiltersLibrary.Filter filter)
+        public int GetValue(FiltersLibrary.Filter filter)
         {
             return _filtersValues.TryGetValue(filter, out var temp) ? temp : _defaultFiltersValues[filter];
         }
 
-        public static void ResetAll()
+        public void ResetAll()
         {
             _filtersValues.Clear();
             _activeFilters.Clear();

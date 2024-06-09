@@ -1,4 +1,4 @@
-﻿namespace MyPhoto
+﻿namespace MyPhoto.Ui
 {
     partial class WelcomeScreen
     {
