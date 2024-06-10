@@ -16,6 +16,7 @@
 * Rewrite UI using UI presentation pattern
 * Write tests
 ## Screenshots
-![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/9c73d1a9-0956-4351-b2e6-4400f5738f5b)
-![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/a9fd1ae5-37aa-4281-baaa-4d478d2e1cfa)
-![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/c8613655-7fb1-4adb-a685-54d25f30435e)
+![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/139db19c-4125-4b5e-b011-28042cfec9f3)
+![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/0d46cfaa-700c-42e3-a4d7-0d60fc50528d)
+![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/cde4f4fa-2925-45ca-ac59-121682c19f69)
+
