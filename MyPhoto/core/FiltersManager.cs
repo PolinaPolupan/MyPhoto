@@ -20,7 +20,7 @@ namespace MyPhoto.Core
             _commandQueue = commandQueue;
         }
         
-        private readonly CommandQueue _commandQueue = commandQueue;
+        private readonly CommandQueue _commandQueue;
 
         private Bitmap ApplyColorMatrix(ref Image image)
         {
