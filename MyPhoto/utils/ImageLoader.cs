@@ -26,12 +26,6 @@ namespace MyPhoto.Utils
             }          
         }
 
-        public static Image LoadImageFromPath(ref string? path)
-        {
-            Debug.Assert(path != null);
-            return Image.FromFile(path);
-        }
-
         public static DialogResult SaveImage(Image image)
         {
             using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Png Image (.png)|*.png|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf" })

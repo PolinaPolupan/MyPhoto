@@ -96,26 +96,5 @@ namespace MyPhoto.Utils
             }
             return X;
         }
-
-        public static float[][] Add(float[][] f1, float[][] f2)
-        {
-            float[][] X = new float[5][];
-            for (int d = 0; d < 5; d++)
-                X[d] = new float[5];
-            int size = 5;
-
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 5; j++)
-                {
-                    float temp = 0;
-
-                    temp = f1[i][j] + f2[i][j];
-
-                    X[i][j] = temp;
-                }
-            }
-            return X;
-        }
     }
 }

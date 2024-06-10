@@ -75,6 +75,7 @@ namespace MyPhoto.Core
 
         private void AddActiveFilter(FiltersLibrary.Filter filter)
         {
+            // Don't add the filter twice
             if (!_activeFilters.Contains(filter))
             {
                 _activeFilters.Add(filter);

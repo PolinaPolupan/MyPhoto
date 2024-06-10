@@ -10,9 +10,9 @@ namespace MyPhoto.Core
 {
     internal class ImageMemento
     {
-        private Image? _image = null;
-        private Dictionary<FiltersLibrary.Filter, int> _values;
-        private List<FiltersLibrary.Filter> _activeFilters;
+        private readonly Image? _image = null;
+        private readonly Dictionary<FiltersLibrary.Filter, int> _values;
+        private readonly List<FiltersLibrary.Filter> _activeFilters;
 
         public ImageMemento(Image image, Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
         {
@@ -113,8 +113,8 @@ namespace MyPhoto.Core
 
     internal class History
     {
-        public List<ImageMemento> mementos = new List<ImageMemento>();
-        public int currentIndex = 0;
+        private List<ImageMemento> _mementos = [];
+        private int _currentIndex = 0;
 
         public History(ImageMemento memento)
         {
@@ -123,68 +123,73 @@ namespace MyPhoto.Core
 
         public void Initialize(ImageMemento memento)
         {
-            currentIndex = 0;
-            mementos.Add(memento);
+            // Don't need to increment the current index to add the intial state
+            _currentIndex = 0;
+            _mementos.Add(memento);
         }
 
         public void AddMemento(ImageMemento memento)
         {
-            currentIndex++;
+            _currentIndex++;
 
-            if (mementos.Count > currentIndex)
+            if (_mementos.Count > _currentIndex)
             {
                 // MEMORY LEAK: Resolve issue
-                for (int i = currentIndex; i < mementos.Count; i++)
+                for (int i = _currentIndex; i < _mementos.Count; i++)
                 {
-                    //mementos[i].ReleaseResources();  
+                    // This line accidentally deletes the objects, which are active at the current moment
+                    // But it is nessecary to release the redundant resources
+                    // Resolve this issue
+                    // mementos[i].ReleaseResources();  <- Gives errors
                 }
-                mementos.RemoveRange(currentIndex, mementos.Count - currentIndex);
+                _mementos.RemoveRange(_currentIndex, _mementos.Count - _currentIndex);
             }          
 
-            mementos.Add(memento);
+            _mementos.Add(memento);
         }
 
         public ImageMemento GetInitialMemento()
         {
-            return mementos[0];
+            return _mementos[0];
         }
 
         public ImageMemento GetPrevious()
         {
-            currentIndex--;
-            if (currentIndex < 0)
+            _currentIndex--;
+            if (_currentIndex < 0)
             {
-                currentIndex = 0;
+                _currentIndex = 0;
             }
-            return mementos[currentIndex];
+            return _mementos[_currentIndex];
         }
 
         public ImageMemento GetNext()
         {
-            currentIndex++;
-            if (currentIndex > mementos.Count - 1)
-                currentIndex = mementos.Count - 1;
-            return mementos[currentIndex];
+            _currentIndex++;
+            if (_currentIndex > _mementos.Count - 1)
+                _currentIndex = _mementos.Count - 1;
+            return _mementos[_currentIndex];
         }
 
         public bool IsUndoEnabled()
         {
-            return currentIndex > 0;
+            return _currentIndex > 0;
         }
 
         public bool IsRedoEnabled()
         {
-            return currentIndex < mementos.Count - 1;
+            return _currentIndex < _mementos.Count - 1;
         }
 
         public void ResetHistory()
         {
-            for (int i = 0; i < mementos.Count; i++)
+            // Release resources
+            for (int i = 0; i < _mementos.Count; i++)
             {
-                mementos[i].ReleaseResources();
+                _mementos[i].ReleaseResources();
             }
-            mementos.Clear();
-            currentIndex = 0;
+            _mementos.Clear();
+            _currentIndex = 0;
         }
     }
 }

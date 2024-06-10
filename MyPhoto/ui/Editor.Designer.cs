@@ -161,7 +161,7 @@ namespace MyPhoto.Ui
             ResetAllButton.ForeColor = SystemColors.Control;
             ResetAllButton.Location = new Point(7, 448);
             ResetAllButton.Name = "ResetAllButton";
-            ResetAllButton.Size = new Size(116, 40);
+            ResetAllButton.Size = new Size(125, 48);
             ResetAllButton.TabIndex = 6;
             ResetAllButton.Text = "Reset All";
             ResetAllButton.UseVisualStyleBackColor = true;

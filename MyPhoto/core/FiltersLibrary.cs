@@ -33,7 +33,7 @@ namespace MyPhoto.Core
         {
             float[][] matrix = MathUtils.Identity5x5;
 
-            float brightnessVal = (brightness / 100.0f);
+            float brightnessVal = (brightness / 100f);
 
             matrix[4][0] = brightnessVal;
             matrix[4][1] = brightnessVal;
@@ -46,7 +46,7 @@ namespace MyPhoto.Core
         {
             float[][] matrix = MathUtils.Identity5x5;
 
-            float contrastVal = (contrast / 100.0f);
+            float contrastVal = (contrast / 100f);
 
             matrix[0][0] = contrastVal;
             matrix[1][1] = contrastVal;
@@ -84,7 +84,7 @@ namespace MyPhoto.Core
         {
             float[][] matrix = MathUtils.Identity5x5;
 
-            float redVal = (red / 100.0f);
+            float redVal = (red / 100f);
 
             matrix[0][0] = redVal;
 
@@ -95,7 +95,7 @@ namespace MyPhoto.Core
         {
             float[][] matrix = MathUtils.Identity5x5;
 
-            float greenVal = (green / 100.0f);
+            float greenVal = (green / 100f);
 
             matrix[1][1] = greenVal;
 
@@ -106,7 +106,7 @@ namespace MyPhoto.Core
         {
             float[][] matrix = MathUtils.Identity5x5;
 
-            float blueVal = (blue / 100.0f);
+            float blueVal = (blue / 100f);
 
             matrix[2][2] = blueVal;
 
@@ -117,11 +117,11 @@ namespace MyPhoto.Core
         {
             float[][] matrix = new float[][]
             {
-                new float[]{.393f, .349f, .272f, 0, 0},
-                new float[]{.769f, .686f, .534f, 0, 0},
-                new float[]{.189f, .168f, .131f, 0, 0},
-                new float[]{0, 0, 0, 1, 0},
-                new float[]{0, 0, 0, 0, 1}
+                new float[]{0.393f, 0.349f, 0.272f, 0f, 0f},
+                new float[]{0.769f, 0.686f, 0.534f, 0f, 0f},
+                new float[]{0.189f, 0.168f, 0.131f, 0f, 0f},
+                new float[]{0f,     0f,     0f,     1f, 0f},
+                new float[]{0f,     0f,     0f,     0f, 1f}
             };
 
             matrix = MathUtils.MultiplyByValue(value, matrix);
@@ -132,11 +132,11 @@ namespace MyPhoto.Core
         public static float[][] GetGrayscaleMatrix(int value)
         {
             float[][] matrix = {
-                new float[]{.3f, .3f, .3f, 0, 0},
-                new float[]{.59f, .59f, .59f, 0, 0},
-                new float[]{.11f, .11f, .11f, 0, 0},
-                new float[]{0, 0, 0, 1, 0},
-                new float[]{0, 0, 0, 0, 1}
+                new float[]{0.3f,  0.3f,  0.3f,  0f, 0f},
+                new float[]{0.59f, 0.59f, 0.59f, 0f, 0f},
+                new float[]{0.11f, 0.11f, 0.11f, 0f, 0f},
+                new float[]{0f,    0f,    0f,    1f, 0f},
+                new float[]{0f,    0f,    0f,    0f, 1f}
             };
 
             matrix = MathUtils.MultiplyByValue(value, matrix);
@@ -147,11 +147,11 @@ namespace MyPhoto.Core
         public static float[][] GetNegativeMatrix(int value)
         {
             float[][] matrix =  {
-                new float[]{-1, 0, 0, 0, 0},
-                new float[]{0, -1, 0, 0, 0},
-                new float[]{0, 0, -1, 0, 0},
-                new float[]{0, 0, 0, 1, 0},
-                new float[]{1, 1, 1, 0, 1}
+                new float[]{-1f,  0f,  0f, 0f, 0f},
+                new float[]{ 0f, -1f,  0f, 0f, 0f},
+                new float[]{ 0f,  0f, -1f, 0f, 0f},
+                new float[]{ 0f,  0f,  0f, 1f, 0f},
+                new float[]{ 1f,  1f,  1f, 0f, 1f}
             };
 
             return (value > 0) ? matrix : MathUtils.Identity5x5;
@@ -161,11 +161,11 @@ namespace MyPhoto.Core
         {
             float[][] matrix = new float[][]
             {
-                new float[]{1, 0, 0, 0, 0},
-                new float[]{0, 1, 0, 0, 0},
-                new float[]{0, 0, 1, 0, 0},
-                new float[]{0, 0, 0, 0.3f, 0},
-                new float[]{0, 0, 0, 0, 1}
+                new float[]{1f, 0f, 0f, 0f,   0f},
+                new float[]{0f, 1f, 0f, 0f,   0f},
+                new float[]{0f, 0f, 1f, 0f,   0f},
+                new float[]{0f, 0f, 0f, 0.3f, 0f},
+                new float[]{0f, 0f, 0f, 0f,   1f}
             };
 
             return (value > 0) ? matrix : MathUtils.Identity5x5;
@@ -175,11 +175,11 @@ namespace MyPhoto.Core
         {
             float[][] matrix = new float[][]
             {
-                new float[]{ 0.276f, 0.0f, 0.0f, 0.000f, 0.0f,},
-                new float[]{ 0.0f, 0.256f, 0.0f, 0.000f, 0.0f},
-                new float[]{ 0.0f, 0.0f, 0.256f, 0.000f, 0.0f,},
-                new float[]{ 0, 0, 0, 1f, 0},
-                new float[]{ 0, 0, 0, 0, 1}
+                new float[]{0.276f, 0f,     0f,     0f, 0f},
+                new float[]{0f,     0.256f, 0f,     0f, 0f},
+                new float[]{0f,     0f,     0.256f, 0f, 0f},
+                new float[]{0f,     0f,     0f,     1f, 0f},
+                new float[]{0f,     0f,     0f,     0f, 1f}
             };
 
             return (value > 0) ? matrix : MathUtils.Identity5x5;
@@ -189,11 +189,11 @@ namespace MyPhoto.Core
         {
             float[][] matrix = new float[][]
             {
-                new float[]{ 1f, 0f, 0f, 0f, 0f},
-                new float[]{ 0.2f, 1.0f, 0.3f, 1.9f, 3f},
-                new float[]{0.1f, 0f, 1.7f, 0f, 0f,},
-                new float[]{0f, 0f, 0f, 1f, 0.7f},
-                new float[]{0, 0, 0, 0, 1}
+                new float[]{1f,   0f, 0f,   0f,   0f},
+                new float[]{0.2f, 1f, 0.3f, 1.9f, 3f},
+                new float[]{0.1f, 0f, 1.7f, 0f,   0f},
+                new float[]{0f,   0f, 0f,   1f,   0.7f},
+                new float[]{0f,   0f, 0f,   0f,   1f}
             };
 
             return (value > 0) ? matrix : MathUtils.Identity5x5;
@@ -203,11 +203,11 @@ namespace MyPhoto.Core
         {
             float[][] matrix = new float[][]
             {
-                new float[]{ 1f, 0f, 0f, 0f, 0f},
-                new float[]{ 0.2f, 1.0f, 0.3f, 1.9f, 3f},
-                new float[]{0.1f, 0f, 1f, 0f, 0f,},
-                new float[]{0f, 0f, 0f, 1f, 0.7f},
-                new float[]{0, 0, 0, 0, 1}
+                new float[]{1f,   0f, 0f,   0f,   0f},
+                new float[]{0.2f, 1f, 0.3f, 1.9f, 3f},
+                new float[]{0.1f, 0f, 1f,   0f,   0f},
+                new float[]{0f,   0f, 0f,   1f,   0.7f},
+                new float[]{0f,   0f, 0f,   0f,   1f}
             };
 
             return (value > 0) ? matrix : MathUtils.Identity5x5;
@@ -215,7 +215,7 @@ namespace MyPhoto.Core
 
         public static float[][] GetHueMatrix(int value)
         {
-            float h = (float)Math.PI * value / 180.0f;
+            float h = (float)Math.PI * value / 180f;
 
             float cosVal = (float)Math.Cos(h);
             float sinVal = (float)Math.Sin(h);
@@ -226,11 +226,11 @@ namespace MyPhoto.Core
 
             float[][] matrix = new float[][]
             {
-                new float[]{ lumR + cosVal * (1 - lumR) + sinVal * (-lumR), lumG + cosVal * (-lumG) + sinVal * (-lumG), lumB + cosVal * (-lumB) + sinVal * (1 - lumB), 0f, 0f},
-                new float[]{ lumR + cosVal * (-lumR) + sinVal * (0.143f), lumG + cosVal * (1 - lumG) + sinVal * (0.140f), lumB + cosVal * (-lumB) + sinVal * (-0.283f), 0f, 0f},
-                new float[]{ lumR + cosVal * (-lumR) + sinVal * (-(1 - lumR)), lumG + cosVal * (-lumG) + sinVal * (lumG), lumB + cosVal * (1 - lumB) + sinVal * (lumB), 0f, 0f,},
-                new float[]{0f, 0f, 0f, 1f, 0f},
-                new float[]{0, 0, 0, 0, 1f}
+                new float[]{lumR + cosVal * (1 - lumR) + sinVal * (-lumR),     lumG + cosVal * (-lumG) + sinVal * (-lumG),      lumB + cosVal * (-lumB) + sinVal * (1 - lumB),  0f, 0f},
+                new float[]{lumR + cosVal * (-lumR) + sinVal * 0.143f,         lumG + cosVal * (1 - lumG) + sinVal * 0.140f,    lumB + cosVal * (-lumB) + sinVal * (-0.283f),   0f, 0f},
+                new float[]{lumR + cosVal * (-lumR) + sinVal * (-(1 - lumR)),  lumG + cosVal * (-lumG) + sinVal * (lumG),       lumB + cosVal * (1 - lumB) + sinVal * (lumB),   0f, 0f},
+                new float[]{0f,                                                0f,                                              0f,                                             1f, 0f},
+                new float[]{0f,                                                0f,                                              0f,                                             0f, 1f}
             };
 
             return matrix;
@@ -266,18 +266,22 @@ namespace MyPhoto.Core
         {
             int width = srcImage.Width;
             int height = srcImage.Height;
+
             BitmapData srcData = srcImage.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             int bytes = srcData.Stride * srcData.Height;
             byte[] buffer = new byte[bytes];
             byte[] result = new byte[bytes];
+
             Marshal.Copy(srcData.Scan0, buffer, 0, bytes);
             srcImage.UnlockBits(srcData);
             int colorChannels = 3;
             double[] rgb = new double[colorChannels];
             int foff = (kernel.GetLength(0) - 1) / 2;
+
             int kcenter = 0;
             int kpixel = 0;
+
             for (int y = foff; y < height - foff; y++)
             {
                 for (int x = foff; x < width - foff; x++)
@@ -316,12 +320,14 @@ namespace MyPhoto.Core
                     result[kcenter + 3] = 255;
                 }
             }
+
             Bitmap resultImage = new Bitmap(width, height);
             BitmapData resultData = resultImage.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
             Marshal.Copy(result, 0, resultData.Scan0, bytes);
             resultImage.UnlockBits(resultData);
 
+            // Tell the GC to collect the redundant data
             resultData = null;
             result = null;
             buffer= null;
@@ -428,6 +434,7 @@ namespace MyPhoto.Core
 
             resultBitmap.UnlockBits(resultData);
 
+            // Tell the GC to collect the redundant data
             resultData = null;
             resultBuffer = null;
             pixelBuffer = null;
@@ -594,6 +601,7 @@ namespace MyPhoto.Core
             Marshal.Copy(resultBuffer, 0, resultData.Scan0, resultBuffer.Length);
             resultBitmap.UnlockBits(resultData);
 
+            // Tell the GC to collect the redundant data
             resultData = null;
             resultBuffer = null;
             pixelBuffer = null;

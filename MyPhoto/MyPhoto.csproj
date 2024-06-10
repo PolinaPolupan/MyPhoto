@@ -7,10 +7,26 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>resources\images\picture_file_image_photo_gallery_icon_219497.ico</ApplicationIcon>
+    <StartupObject>MyPhoto.Ui.Program</StartupObject>
+    <Title>My Photo</Title>
+    <Description>Basic photo editor</Description>
+    <PackageProjectUrl>https://github.com/PolinaPolupan/MyPhoto</PackageProjectUrl>
+    <PackageIcon>picture_file_image_photo_gallery_icon_219497.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/PolinaPolupan/MyPhoto</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>MyPhoto_1_0_0</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="resources\images\picture_file_image_photo_gallery_icon_219497.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +53,10 @@
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="resources\images\picture_file_image_photo_gallery_icon_219497.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 

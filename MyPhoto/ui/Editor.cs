@@ -45,10 +45,6 @@ namespace MyPhoto.Ui
 
             _history.AddMemento(_originator.CreateMemento());
 
-            Console.WriteLine(_history.currentIndex);
-            Console.WriteLine(_history.mementos.Count);
-            Console.WriteLine("\n");
-
             RedoButton.Enabled = IsRedoEnabled();
             UndoButton.Enabled = IsUndoEnabled();
         }
@@ -322,6 +318,7 @@ namespace MyPhoto.Ui
 
             _filtersManager.SetValues(values);
             _filtersManager.SetActiveFilters(activeFilters);
+
             UpdateUi();
 
             ReloadPictureBox();
@@ -342,6 +339,7 @@ namespace MyPhoto.Ui
 
             _filtersManager.SetValues(values);
             _filtersManager.SetActiveFilters(activeFilters);
+
             UpdateUi();
 
             ReloadPictureBox();
