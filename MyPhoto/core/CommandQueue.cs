@@ -13,11 +13,11 @@ namespace MyPhoto.Core
         /// <summary>
         /// _activeFilters list saves the filters, which are applied to the image at the current moment
         /// </summary>
-        private List<FiltersLibrary.Filter> _activeFilters = new List<FiltersLibrary.Filter>();
+        private List<FiltersLibrary.Filter> _activeFilters = [];
         /// <summary>
         /// _filtersValues dictionary saves the filters with the appropriate values (examples: intensity, slider value)
         /// </summary>
-        private Dictionary<FiltersLibrary.Filter, int> _filtersValues = new Dictionary<FiltersLibrary.Filter, int>();
+        private Dictionary<FiltersLibrary.Filter, int> _filtersValues = [];
         /// <summary>
         /// _filtersActions is a container, that maps filters to the functions of the Filters Library
         /// </summary>

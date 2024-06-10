@@ -13,14 +13,9 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MyPhoto.Core
 {
-    internal class FiltersManager
+    internal class FiltersManager(CommandQueue commandQueue)
     {
-        public FiltersManager(CommandQueue commandQueue)
-        {
-            _commandQueue = commandQueue;
-        }
-        
-        private readonly CommandQueue _commandQueue;
+        private readonly CommandQueue _commandQueue = commandQueue;
 
         private Bitmap ApplyColorMatrix(ref Image image)
         {
