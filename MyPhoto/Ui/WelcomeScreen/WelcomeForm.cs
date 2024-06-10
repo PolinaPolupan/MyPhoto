@@ -3,28 +3,25 @@ using MyPhoto.Utils;
 
 namespace MyPhoto.Ui
 {
-    public partial class WelcomeScreen : Form
+    public partial class WelcomeForm : Form, IWelcomeView
     {
-        public WelcomeScreen()
+        public WelcomeForm()
         {
             InitializeComponent();
             this.SendToBack();
         }
 
+        public WelcomePresenter Presenter { private get; set; }
+
         private void RoundedButton_Click(object sender, EventArgs e)
         {
-            LoadImage();
+            Presenter.LoadImage();
             if (ImageEditorState.image != null)
             {
-                Editor editor = new Editor();
+                EditorForm editor = new EditorForm();
                 editor.Show();
                 Hide();
             }        
-        }
-
-        void LoadImage()
-        {
-            ImageLoader.LoadImage(ref ImageEditorState.image, ref ImageEditorState.imagePath);
         }
     }
 }

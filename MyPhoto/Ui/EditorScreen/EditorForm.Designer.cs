@@ -1,9 +1,10 @@
 ﻿using System.Drawing.Imaging;
 using MyPhoto.Core;
+using MyPhoto.Core.DesignSystem;
 
 namespace MyPhoto.Ui
 {
-    partial class Editor
+    partial class EditorForm
     {
         /// <summary>
         /// Required designer variable.

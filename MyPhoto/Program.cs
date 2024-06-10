@@ -1,3 +1,5 @@
+using System.Windows.Forms;
+
 namespace MyPhoto.Ui
 {
     internal static class Program
@@ -10,8 +12,12 @@ namespace MyPhoto.Ui
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new WelcomeScreen());
+            ApplicationConfiguration.Initialize();            
+
+            var view = new WelcomeForm();
+            var presenter = new WelcomePresenter(view);
+
+            Application.Run(view);
         }
     }
 }

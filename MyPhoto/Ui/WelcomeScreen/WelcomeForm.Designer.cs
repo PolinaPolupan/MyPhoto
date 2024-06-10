@@ -1,6 +1,8 @@
-﻿namespace MyPhoto.Ui
+﻿using MyPhoto.Core.DesignSystem;
+
+namespace MyPhoto.Ui
 {
-    partial class WelcomeScreen
+    partial class WelcomeForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -75,7 +77,7 @@
             panel1.Size = new Size(404, 630);
             panel1.TabIndex = 2;
             // 
-            // WelcomeScreen
+            // WelcomeForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -84,7 +86,7 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1072, 630);
             Controls.Add(panel1);
-            Name = "WelcomeScreen";
+            Name = "WelcomeForm";
             Text = "MyPhoto";
             Load += WelcomeScreen_Load;
             panel1.ResumeLayout(false);

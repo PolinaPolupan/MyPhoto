@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="resources\images\picture_file_image_photo_gallery_icon_219497.ico" />
+    <Content Include="Resources\Images\picture_file_image_photo_gallery_icon_219497.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,7 +54,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Update="resources\images\picture_file_image_photo_gallery_icon_219497.png">
+    <None Update="Resources\Images\picture_file_image_photo_gallery_icon_219497.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

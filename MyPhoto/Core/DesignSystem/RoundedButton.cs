@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPhoto
+namespace MyPhoto.Core.DesignSystem
 {
     class RoundedButton : Button
     {
@@ -29,10 +29,10 @@ namespace MyPhoto
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            RectangleF Rect = new RectangleF(0, 0, this.Width, this.Height);
+            RectangleF Rect = new RectangleF(0, 0, Width, Height);
             using (GraphicsPath GraphPath = GetRoundPath(Rect, 50))
             {
-                this.Region = new Region(GraphPath);
+                Region = new Region(GraphPath);
                 using (Pen pen = new Pen(Color.AntiqueWhite, 1.75f))
                 {
                     pen.Alignment = PenAlignment.Inset;
