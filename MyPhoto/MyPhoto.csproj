@@ -2,7 +2,11 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+<<<<<<< HEAD
     <TargetFramework>net8.0-windows</TargetFramework>
+=======
+    <TargetFramework>net7.0-windows</TargetFramework>
+>>>>>>> parent of d811434 (Project structure is changed to support MVP architecture)
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
