@@ -113,7 +113,7 @@ namespace MyPhoto.Core
 
     internal class History
     {
-        private List<ImageMemento> _mementos = [];
+        private List<ImageMemento> _mementos = new List<ImageMemento>();
         private int _currentIndex = 0;
 
         public History(ImageMemento memento)
