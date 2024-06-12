@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace MyPhoto.Ui
 {
-    public interface IWelcomeView
+    internal interface IWelcomeView
     {
         WelcomePresenter Presenter { set; }
+
+        void Hide();
     }
 }

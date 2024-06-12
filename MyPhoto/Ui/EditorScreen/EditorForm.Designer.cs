@@ -632,7 +632,7 @@ namespace MyPhoto.Ui
             // 
             openFileDialog1.FileName = "openFileDialog1";
             // 
-            // Editor
+            // EditorForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -643,7 +643,7 @@ namespace MyPhoto.Ui
             Controls.Add(TopPanel);
             Controls.Add(BottomPanel);
             Controls.Add(PictureBox);
-            Name = "Editor";
+            Name = "EditorForm";
             Text = "Editor";
             Load += Editor_Load;
             ((System.ComponentModel.ISupportInitialize)PictureBox).EndInit();
@@ -719,10 +719,5 @@ namespace MyPhoto.Ui
         private CheckBox PurpleCheckBox;
         private Label HueLabel;
         private TrackBar HueSlider;
-
-        private FiltersManager _filtersManager;
-        private CommandQueue _commandQueue;
-        private History _history;
-        private ImageOriginator _originator;
     }
 }

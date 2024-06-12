@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MyPhoto.Ui
 {
-    public class WelcomePresenter
+    internal class WelcomePresenter
     {
-        private readonly IWelcomeView _view;
+        private IWelcomeView _view;
 
         public WelcomePresenter(IWelcomeView view)
         {
@@ -20,6 +20,11 @@ namespace MyPhoto.Ui
         public void LoadImage()
         {
             ImageLoader.LoadImage(ref ImageEditorState.image, ref ImageEditorState.imagePath);
+        }
+
+        public void Hide()
+        {
+            _view.Hide();
         }
     }
 }

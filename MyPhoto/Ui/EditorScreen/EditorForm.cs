@@ -15,112 +15,68 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MyPhoto.Ui
 {
-    public partial class EditorForm : Form
+    internal partial class EditorForm : Form, IEditorView
     {
+        public EditorPresenter EditorPresenter { private get; set; }
+
+        public System.Drawing.Image Image
+        {
+            get { return PictureBox.Image; }
+            set { PictureBox.Image = value; }
+        }
+
         public EditorForm()
         {
             InitializeComponent();
         }
 
-        private void ReleasePictureBoxResources()
-        {
-            Debug.Assert(ImageEditorState.image != null);
-            PictureBox.Image?.Dispose();
-        }
-
-        private void SaveState(bool saveImage = false)
-        {
-            var values = _filtersManager.GetValues();
-            var activeFilters = _filtersManager.GetActiveFilters();
-
-            if (saveImage)
-            {
-                var image = (System.Drawing.Image)PictureBox.Image.Clone();
-                _originator.Update(values, activeFilters, image);
-            }
-            else
-            {
-                _originator.Update(values, activeFilters);
-            }
-
-            _history.AddMemento(_originator.CreateMemento());
-
-            RedoButton.Enabled = IsRedoEnabled();
-            UndoButton.Enabled = IsUndoEnabled();
-        }
-
         private void Editor_Load(object sender, EventArgs e)
         {
-            _commandQueue = new CommandQueue();
-            _filtersManager = new FiltersManager(_commandQueue);
-            ReloadPictureBox();
-
-            var image = (System.Drawing.Image)PictureBox.Image.Clone();
-            _history = new History(new ImageMemento(image, _filtersManager.GetValues(), _filtersManager.GetActiveFilters()));
-            _originator = new ImageOriginator(image, _filtersManager.GetValues(), _filtersManager.GetActiveFilters());
+            EditorPresenter.ReloadPictureBox();
         }
 
         private void UpdateUi()
         {
-            BrightnessSlider.Value = _filtersManager.GetValue(FiltersLibrary.Filter.BRIGHTNESS);
-            ContrastSlider.Value = _filtersManager.GetValue(FiltersLibrary.Filter.CONTRAST);
-            SaturationSlider.Value = _filtersManager.GetValue(FiltersLibrary.Filter.SATURATION);
-            HueSlider.Value = _filtersManager.GetValue(FiltersLibrary.Filter.HUE);
-            RedChannelSlider.Value = _filtersManager.GetValue(FiltersLibrary.Filter.RED);
-            GreenChannelSlider.Value = _filtersManager.GetValue(FiltersLibrary.Filter.GREEN);
-            BlueChannelSlider.Value = _filtersManager.GetValue(FiltersLibrary.Filter.BLUE);
-            SepiaCheckBox.Checked = _filtersManager.GetValue(FiltersLibrary.Filter.SEPIA) > 0;
-            NegativeCheckBox.Checked = _filtersManager.GetValue(FiltersLibrary.Filter.NEGATIVE) > 0;
-            TransparencyCheckBox.Checked = _filtersManager.GetValue(FiltersLibrary.Filter.TRANSPARENCY) > 0;
-            GrayscaleCheckBox.Checked = _filtersManager.GetValue(FiltersLibrary.Filter.GRAYSCALE) > 0;
-            DarkCheckBox.Checked = _filtersManager.GetValue(FiltersLibrary.Filter.DARK) > 0;
-            BlueCheckBox.Checked =_filtersManager.GetValue(FiltersLibrary.Filter.BLUE_FILTER) > 0;
-            PurpleCheckBox.Checked = _filtersManager.GetValue(FiltersLibrary.Filter.PURPLE) > 0;
+            BrightnessSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.BRIGHTNESS);
+            ContrastSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.CONTRAST);
+            SaturationSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.SATURATION);
+            HueSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.HUE);
+            RedChannelSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.RED);
+            GreenChannelSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.GREEN);
+            BlueChannelSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.BLUE);
+            SepiaCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.SEPIA) > 0;
+            NegativeCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.NEGATIVE) > 0;
+            TransparencyCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.TRANSPARENCY) > 0;
+            GrayscaleCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.GRAYSCALE) > 0;
+            DarkCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.DARK) > 0;
+            BlueCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.BLUE_FILTER) > 0;
+            PurpleCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.PURPLE) > 0;
 
-            UndoButton.Enabled = IsUndoEnabled();
-            RedoButton.Enabled = IsRedoEnabled();
+            UndoButton.Enabled = EditorPresenter.IsUndoEnabled();
+            RedoButton.Enabled = EditorPresenter.IsRedoEnabled();
         }
 
         private void ResetAllButton_Click(object sender, EventArgs e)
         {
-            ResetAll();
+            EditorPresenter.ResetAll();
 
-            SaveState();
+            EditorPresenter.SaveState();
+
+            RedoButton.Enabled = EditorPresenter.IsRedoEnabled();
+            UndoButton.Enabled = EditorPresenter.IsUndoEnabled();
 
             UpdateUi();
         }
 
-        private void ResetAll()
-        {
-            _filtersManager.ResetAll();
-
-            ReloadPictureBox();
-        }
-
         private void OpenButton_Click(object sender, EventArgs e)
         {
-            var res = ImageLoader.LoadImage(ref ImageEditorState.image, ref ImageEditorState.imagePath);
-            if (res == DialogResult.OK)
-            {
-                _filtersManager.ResetAll();
-                ReloadPictureBox(); // Reapply all of the filters
-
-                Debug.Assert(ImageEditorState.image != null); // What if the image == null? Resolve issue
-                var image = (System.Drawing.Image)ImageEditorState.image.Clone();
-
-                _history.ResetHistory();
-
-                _originator.Update(_filtersManager.GetValues(), _filtersManager.GetActiveFilters(), image);
-
-                _history.Initialize(_originator.CreateMemento());
-
-                UpdateUi();
-            }
+            EditorPresenter.OpenImage();
+            UpdateUi();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            ImageLoader.SaveImage(PictureBox.Image);
+            ImageLoader.SaveImage(Image);
         }
 
         private void PictureBox_Click(object sender, EventArgs e)
@@ -131,238 +87,134 @@ namespace MyPhoto.Ui
         {
             if (keyData == (Keys.Control | Keys.Z))
             {
-                Undo();
+                EditorPresenter.Undo();
                 return true;
             }
             if (keyData == (Keys.Control | Keys.Z | Keys.Shift))
             {
-                Redo();
+                EditorPresenter.Redo();
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void ReloadPictureBox()
-        {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.Reload(ref ImageEditorState.image);
-        }
-
         private void BrightnessSlider_Scroll(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyBrightness(ref ImageEditorState.image, BrightnessSlider.Value);
-            SaveState();
+            EditorPresenter.ApplyBrightness(BrightnessSlider.Value);
         }
 
         private void ContrastSlider_Scroll(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyContrast(ref ImageEditorState.image, ContrastSlider.Value);
-            SaveState();
+            EditorPresenter.ApplyContrast(ContrastSlider.Value);
         }
 
         private void SaturationSlider_Scroll(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplySaturation(ref ImageEditorState.image, SaturationSlider.Value);
-            SaveState();
+            EditorPresenter.ApplySaturation(SaturationSlider.Value);
         }
 
         private void Red_Scroll(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyRedChannel(ref ImageEditorState.image, RedChannelSlider.Value);
-            SaveState();
+            EditorPresenter.ApplyRedChannel(RedChannelSlider.Value);
         }
 
         private void Green_Scroll(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyGreenChannel(ref ImageEditorState.image, GreenChannelSlider.Value);
-            SaveState();
+            EditorPresenter.ApplyGreenChannel(GreenChannelSlider.Value);
         }
 
         private void Blue_Scroll(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyBlueChannel(ref ImageEditorState.image, BlueChannelSlider.Value);
-            SaveState();
+            EditorPresenter.ApplyBlueChannel(BlueChannelSlider.Value);
         }
+
         private void HueSlider_Scroll(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyHue(ref ImageEditorState.image, HueSlider.Value);
-            SaveState();
+            EditorPresenter.ApplyHue(HueSlider.Value);
         }
 
         private void TransparencyCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyTransparency(ref ImageEditorState.image, (TransparencyCheckBox.Checked) ? 1 : 0);
-            SaveState();
+            EditorPresenter.ApplyTransparency((TransparencyCheckBox.Checked) ? 1 : 0);
         }
 
         private void SepiaCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplySepia(ref ImageEditorState.image, (SepiaCheckBox.Checked) ? 1 : 0);
-            SaveState();
+            EditorPresenter.ApplySepia((SepiaCheckBox.Checked) ? 1 : 0);
         }
 
         private void GrayscaleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyGrayscale(ref ImageEditorState.image, (GrayscaleCheckBox.Checked) ? 1 : 0);
-            SaveState();
+            EditorPresenter.ApplyGrayscale((GrayscaleCheckBox.Checked) ? 1 : 0);
         }
 
         private void NegativeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyNegative(ref ImageEditorState.image, (NegativeCheckBox.Checked) ? 1 : 0);
-            SaveState();
+            EditorPresenter.ApplyNegative((NegativeCheckBox.Checked) ? 1 : 0);
         }
 
         private void DarkCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyDark(ref ImageEditorState.image, (DarkCheckBox.Checked) ? 1 : 0);
-            SaveState();
+            EditorPresenter.ApplyDark((DarkCheckBox.Checked) ? 1 : 0);
         }
 
         private void BlueCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyBlue(ref ImageEditorState.image, (BlueCheckBox.Checked) ? 1 : 0);
-            SaveState();
+            EditorPresenter.ApplyBlue((BlueCheckBox.Checked) ? 1 : 0);
         }
 
         private void PurpleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            PictureBox.Image = _filtersManager.ApplyPurple(ref ImageEditorState.image, (PurpleCheckBox.Checked) ? 1 : 0);
-            SaveState();
+            EditorPresenter.ApplyPurple((PurpleCheckBox.Checked) ? 1 : 0);
         }
 
         private void PictureBox_Down(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            var image = _history.GetInitialMemento().GetSavedImage();
-            Debug.Assert(image != null);
-            PictureBox.Image = (System.Drawing.Image)image.Clone();
+            EditorPresenter.PictureBox_Down();
         }
 
         private void PictureBox_Up(object sender, MouseEventArgs e)
         {
-            ReloadPictureBox();
+            EditorPresenter.ReloadPictureBox();
         }
 
         private void GaussianBlurButton_Click(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            var image = (System.Drawing.Image)ImageEditorState.image.Clone();
-            ImageEditorState.image?.Dispose();
-
             Cursor = Cursors.WaitCursor; // change cursor to hourglass type
-            ImageEditorState.image = _filtersManager.ApplyGaussianBlur(image, 9.25f);
+            EditorPresenter.ApplyGaussianBlur();
             Cursor = Cursors.Arrow; // change cursor to normal type
-
-            image.Dispose();
-            ReloadPictureBox();
-            SaveState(true);
         }
 
         private void MedianBlurButton_Click(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            var image = (System.Drawing.Image)ImageEditorState.image.Clone();
-            ImageEditorState.image?.Dispose();
-
             Cursor = Cursors.WaitCursor; // change cursor to hourglass type
-            ImageEditorState.image = _filtersManager.ApplyMedianBlur(image, 9);
+            EditorPresenter.ApplyMedianBlur();
             Cursor = Cursors.Arrow; // change cursor to normal type
-
-            image.Dispose();
-            ReloadPictureBox();
-            SaveState(true);
         }
 
         private void CartoonButton_Click(object sender, EventArgs e)
         {
-            ReleasePictureBoxResources();
-            var image = (System.Drawing.Image)ImageEditorState.image.Clone();
-            ImageEditorState.image?.Dispose();
-
             Cursor = Cursors.WaitCursor; // change cursor to hourglass type
-            ImageEditorState.image = _filtersManager.ApplyCartoon(image, 9);
+            EditorPresenter.ApplyCartoon();
             Cursor = Cursors.Arrow; // change cursor to normal type
-
-            image.Dispose();
-            ReloadPictureBox();
-            SaveState(true);
-        }
-
-        private void Undo()
-        {
-            ReleasePictureBoxResources();
-            var state = _history.GetPrevious();
-            _originator.RestoreFromMemento(state);
-
-            var image = _originator.GetImage();
-            var values = _originator.GetValues();
-            var activeFilters = _originator.GetActiveFilters();
-
-            if (image != null)
-                ImageEditorState.image = (System.Drawing.Image)image.Clone();
-
-            _filtersManager.SetValues(values);
-            _filtersManager.SetActiveFilters(activeFilters);
-
-            UpdateUi();
-
-            ReloadPictureBox();
-        }
-
-        private void Redo()
-        {
-            ReleasePictureBoxResources();
-            var state = _history.GetNext();
-            _originator.RestoreFromMemento(state);
-
-            var image = _originator.GetImage();
-            var values = _originator.GetValues();
-            var activeFilters = _originator.GetActiveFilters();
-
-            if (image != null)
-                ImageEditorState.image = (System.Drawing.Image)image.Clone();
-
-            _filtersManager.SetValues(values);
-            _filtersManager.SetActiveFilters(activeFilters);
-
-            UpdateUi();
-
-            ReloadPictureBox();
         }
 
         private void UndoButton_Click(object sender, EventArgs e)
         {
-            Undo();
+            EditorPresenter.Undo();
+
+            UpdateUi();
+
+            EditorPresenter.ReloadPictureBox();
         }
 
         private void RedoButton_Click(object sender, EventArgs e)
         {
-            Redo();
-        }
+            EditorPresenter.Redo();
 
-        private bool IsUndoEnabled()
-        {
-            return _history.IsUndoEnabled();
-        }
+            UpdateUi();
 
-        private bool IsRedoEnabled()
-        {
-            return _history.IsRedoEnabled();
+            EditorPresenter.ReloadPictureBox();
         }
     }
 }

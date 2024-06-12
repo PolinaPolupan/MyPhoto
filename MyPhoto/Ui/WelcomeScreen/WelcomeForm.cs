@@ -3,7 +3,7 @@ using MyPhoto.Utils;
 
 namespace MyPhoto.Ui
 {
-    public partial class WelcomeForm : Form, IWelcomeView
+    internal partial class WelcomeForm : Form, IWelcomeView
     {
         public WelcomeForm()
         {
@@ -18,9 +18,18 @@ namespace MyPhoto.Ui
             Presenter.LoadImage();
             if (ImageEditorState.image != null)
             {
-                EditorForm editor = new EditorForm();
-                editor.Show();
-                Hide();
+                var commandQueue = new CommandQueue();
+                var filtersManager = new FiltersManager(commandQueue);
+
+                var image = (System.Drawing.Image)ImageEditorState.image.Clone();
+                var history = new History(new ImageMemento(image, filtersManager.GetValues(), filtersManager.GetActiveFilters()));
+                var originator = new ImageOriginator(image, filtersManager.GetValues(), filtersManager.GetActiveFilters());
+
+                var editorView = new EditorForm();
+                var presenter = new EditorPresenter(editorView, filtersManager, history, originator);
+
+                presenter.Show();
+                Presenter.Hide();
             }        
         }
     }

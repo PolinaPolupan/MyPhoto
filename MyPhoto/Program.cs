@@ -14,10 +14,10 @@ namespace MyPhoto.Ui
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();            
 
-            var view = new WelcomeForm();
-            var presenter = new WelcomePresenter(view);
+            var welcomeView = new WelcomeForm();
+            var welcomePresenter = new WelcomePresenter(welcomeView);
 
-            Application.Run(view);
+            Application.Run(welcomeView);
         }
     }
 }
