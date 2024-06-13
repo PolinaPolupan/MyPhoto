@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPhoto", "MyPhoto\MyPhoto.
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MyPhotoInstaller", "MyPhotoInstaller\MyPhotoInstaller.vdproj", "{744B3FB4-606E-4D8A-9848-B8AAB8BD0AF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPhotoTests", "MyPhotoTests\MyPhotoTests.csproj", "{EC9A0B1D-48EA-4A78-9A5C-75AD7EB43CDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{744B3FB4-606E-4D8A-9848-B8AAB8BD0AF2}.Debug|Any CPU.Build.0 = Debug
 		{744B3FB4-606E-4D8A-9848-B8AAB8BD0AF2}.Release|Any CPU.ActiveCfg = Release
 		{744B3FB4-606E-4D8A-9848-B8AAB8BD0AF2}.Release|Any CPU.Build.0 = Release
+		{EC9A0B1D-48EA-4A78-9A5C-75AD7EB43CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC9A0B1D-48EA-4A78-9A5C-75AD7EB43CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC9A0B1D-48EA-4A78-9A5C-75AD7EB43CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC9A0B1D-48EA-4A78-9A5C-75AD7EB43CDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

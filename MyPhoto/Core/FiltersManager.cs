@@ -13,7 +13,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MyPhoto.Core
 {
-    internal class FiltersManager(CommandQueue commandQueue)
+    public class FiltersManager(CommandQueue commandQueue)
     {
         private readonly CommandQueue _commandQueue = commandQueue;
 

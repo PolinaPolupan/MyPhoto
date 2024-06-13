@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyPhoto.Ui
 {
-    internal interface IEditorView
+    public interface IEditorView
     {
         int Brightness { get; set; }
 

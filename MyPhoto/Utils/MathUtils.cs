@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyPhoto.Utils
 {
-    internal static class MathUtils
+    public static class MathUtils
     {
         public static float[][] Identity5x5
         {

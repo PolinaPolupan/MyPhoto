@@ -9,7 +9,7 @@ using MyPhoto.Utils;
 
 namespace MyPhoto.Core
 {
-    internal static class FiltersLibrary
+    public static class FiltersLibrary
     {
         public enum Filter
         {

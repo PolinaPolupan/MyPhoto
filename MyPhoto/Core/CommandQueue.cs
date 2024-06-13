@@ -8,7 +8,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MyPhoto.Core
 {
-    internal class CommandQueue
+    public class CommandQueue
     {
         /// <summary>
         /// _activeFilters list saves the filters, which are applied to the image at the current moment

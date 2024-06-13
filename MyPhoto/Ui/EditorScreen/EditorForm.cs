@@ -15,7 +15,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MyPhoto.Ui
 {
-    internal partial class EditorForm : Form, IEditorView
+    public partial class EditorForm : Form, IEditorView
     {
         public EditorPresenter EditorPresenter { private get; set; }
 

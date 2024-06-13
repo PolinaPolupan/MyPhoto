@@ -9,7 +9,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace MyPhoto.Utils
 {
-    internal static class ImageLoader
+    public static class ImageLoader
     {
         public static Image? LoadImage()
         {
@@ -23,6 +23,12 @@ namespace MyPhoto.Utils
                 }
             }
             return image;
+        }
+
+        public static Image? LoadImageFromPath(in string? path)
+        {
+            Debug.Assert(path != null);
+            return Image.FromFile(path);
         }
 
         public static DialogResult SaveImage(in Image image)

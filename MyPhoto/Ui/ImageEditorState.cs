@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyPhoto.Ui
 {
-    internal class ImageEditorState
+    public class ImageEditorState
     {
         public Image? image = null;
     }

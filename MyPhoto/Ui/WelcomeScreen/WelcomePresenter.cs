@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyPhoto.Ui
 {
-    internal class WelcomePresenter
+    public class WelcomePresenter
     {
         private readonly IWelcomeView _view;
 

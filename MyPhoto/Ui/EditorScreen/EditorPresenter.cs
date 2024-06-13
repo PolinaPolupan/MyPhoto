@@ -11,7 +11,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MyPhoto.Ui
 {
-    internal class EditorPresenter
+    public class EditorPresenter
     {
         private readonly IEditorView _view;
 

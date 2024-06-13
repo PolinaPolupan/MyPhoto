@@ -3,7 +3,7 @@ using MyPhoto.Utils;
 
 namespace MyPhoto.Ui
 {
-    internal partial class WelcomeForm : Form, IWelcomeView
+    public partial class WelcomeForm : Form, IWelcomeView
     {
         public WelcomeForm()
         {

@@ -8,7 +8,7 @@ using MyPhoto.Core;
 
 namespace MyPhoto.Core
 {
-    internal class ImageMemento
+    public class ImageMemento
     {
         private readonly Image? _image = null;
         private readonly Dictionary<FiltersLibrary.Filter, int> _values = [];
@@ -57,7 +57,7 @@ namespace MyPhoto.Core
         }
     }
 
-    internal class ImageOriginator
+    public class ImageOriginator
     {
         private Image? _image = null;
         private Dictionary<FiltersLibrary.Filter, int> _values = [];
@@ -132,7 +132,7 @@ namespace MyPhoto.Core
         }
     }
 
-    internal class History
+    public class History
     {
         private List<ImageMemento> _mementos = [];
         private int _currentIndex = 0;
