@@ -11,8 +11,8 @@ namespace MyPhoto.Core
     internal class ImageMemento
     {
         private readonly Image? _image = null;
-        private readonly Dictionary<FiltersLibrary.Filter, int> _values;
-        private readonly List<FiltersLibrary.Filter> _activeFilters;
+        private readonly Dictionary<FiltersLibrary.Filter, int> _values = [];
+        private readonly List<FiltersLibrary.Filter> _activeFilters = [];
 
         public ImageMemento(Image image, Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
         {
@@ -25,6 +25,11 @@ namespace MyPhoto.Core
         {
             _values = values;
             _activeFilters = activeFilters;
+        }
+
+        public ImageMemento(Image image)
+        {
+            _image = image;
         }
 
         public Image? GetSavedImage()
@@ -51,14 +56,20 @@ namespace MyPhoto.Core
     internal class ImageOriginator
     {
         private Image? _image = null;
-        private Dictionary<FiltersLibrary.Filter, int> _values;
-        private List<FiltersLibrary.Filter> _activeFilters;
+        private Dictionary<FiltersLibrary.Filter, int> _values = [];
+        private List<FiltersLibrary.Filter> _activeFilters = [];
 
-        public ImageOriginator(Image? image, Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
+        public ImageOriginator(Image image, Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
         {
             _image = image;
             _values = values;
             _activeFilters = activeFilters;
+
+        }
+
+        public ImageOriginator(Image image)
+        {
+            _image = image;
         }
 
         public void Update(Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters, Image image)

@@ -8,7 +8,7 @@ namespace MyPhoto.Ui
 {
     internal interface IWelcomeView
     {
-        WelcomePresenter Presenter { set; }
+        WelcomePresenter WelcomePresenter { set; }
 
         void Hide();
     }

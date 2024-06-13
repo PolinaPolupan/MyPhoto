@@ -9,7 +9,8 @@ namespace MyPhoto.Ui
 {
     internal class WelcomePresenter
     {
-        private IWelcomeView _view;
+        private readonly IWelcomeView _view;
+
         public ImageEditorState State
         {
             private set;
@@ -25,13 +26,13 @@ namespace MyPhoto.Ui
         public WelcomePresenter(IWelcomeView view, ImageEditorState state)
         {
             _view = view;
-            view.Presenter = this;
+            view.WelcomePresenter = this;
             State = state;
         }
 
         public void LoadImage()
         {
-            ImageLoader.LoadImage(ref State.image, ref State.imagePath);
+            State.image = ImageLoader.LoadImage();
         }
 
         public void Hide()

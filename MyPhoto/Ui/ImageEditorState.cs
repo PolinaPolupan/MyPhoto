@@ -10,6 +10,5 @@ namespace MyPhoto.Ui
     internal class ImageEditorState
     {
         public Image? image = null;
-        public string? imagePath = null;
     }
 }

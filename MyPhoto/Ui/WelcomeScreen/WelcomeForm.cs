@@ -11,26 +11,26 @@ namespace MyPhoto.Ui
             this.SendToBack();
         }
 
-        public WelcomePresenter Presenter { private get; set; }
+        public WelcomePresenter WelcomePresenter { private get; set; }
 
         private void RoundedButton_Click(object sender, EventArgs e)
         {
-            Presenter.LoadImage();
-            if (Presenter.Image != null)
+            WelcomePresenter.LoadImage();
+            if (WelcomePresenter.Image != null)
             {
                 var commandQueue = new CommandQueue();
                 var filtersManager = new FiltersManager(commandQueue);
 
-                var image = (System.Drawing.Image)Presenter.Image.Clone();
-                var history = new History(new ImageMemento(image, filtersManager.GetValues(), filtersManager.GetActiveFilters()));
-                var originator = new ImageOriginator(image, filtersManager.GetValues(), filtersManager.GetActiveFilters());
+                var image = (System.Drawing.Image)WelcomePresenter.Image.Clone();
+                var history = new History(new ImageMemento(image));
+                var originator = new ImageOriginator(image);
 
                 var editorView = new EditorForm();
-                var state = Presenter.State;
+                var state = WelcomePresenter.State;
                 var presenter = new EditorPresenter(editorView, state, filtersManager, history, originator);
 
                 presenter.Show();
-                Presenter.Hide();
+                WelcomePresenter.Hide();
             }        
         }
     }

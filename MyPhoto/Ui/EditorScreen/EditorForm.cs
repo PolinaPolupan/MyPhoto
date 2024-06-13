@@ -130,43 +130,14 @@ namespace MyPhoto.Ui
             EditorPresenter.ReloadPictureBox();
         }
 
-        private void UpdateUi()
-        {
-            Brightness = EditorPresenter.GetValue(FiltersLibrary.Filter.BRIGHTNESS);
-            Contrast = EditorPresenter.GetValue(FiltersLibrary.Filter.CONTRAST);
-            Saturation = EditorPresenter.GetValue(FiltersLibrary.Filter.SATURATION);
-            Hue = EditorPresenter.GetValue(FiltersLibrary.Filter.HUE);
-            RedChannel = EditorPresenter.GetValue(FiltersLibrary.Filter.RED);
-            GreenChannel = EditorPresenter.GetValue(FiltersLibrary.Filter.GREEN);
-            BlueChannel = EditorPresenter.GetValue(FiltersLibrary.Filter.BLUE);
-            Sepia = EditorPresenter.GetValue(FiltersLibrary.Filter.SEPIA);
-            Negative = EditorPresenter.GetValue(FiltersLibrary.Filter.NEGATIVE);
-            Transparency = EditorPresenter.GetValue(FiltersLibrary.Filter.TRANSPARENCY);
-            Grayscale = EditorPresenter.GetValue(FiltersLibrary.Filter.GRAYSCALE);
-            Dark = EditorPresenter.GetValue(FiltersLibrary.Filter.DARK);
-            Blue = EditorPresenter.GetValue(FiltersLibrary.Filter.BLUE_FILTER);
-            Purple = EditorPresenter.GetValue(FiltersLibrary.Filter.PURPLE);
-
-            UndoButtonEnabled = EditorPresenter.IsUndoEnabled();
-            RedoButtonEnabled = EditorPresenter.IsRedoEnabled();
-        }
-
         private void ResetAllButton_Click(object sender, EventArgs e)
         {
             EditorPresenter.ResetAll();
-
-            EditorPresenter.SaveState();
-
-            RedoButtonEnabled = EditorPresenter.IsRedoEnabled();
-            UndoButtonEnabled = EditorPresenter.IsUndoEnabled();
-
-            UpdateUi();
         }
 
         private void OpenButton_Click(object sender, EventArgs e)
         {
             EditorPresenter.OpenImage();
-            UpdateUi();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
@@ -265,7 +236,7 @@ namespace MyPhoto.Ui
 
         private void PictureBox_Down(object sender, EventArgs e)
         {
-            EditorPresenter.PictureBox_Down();
+            EditorPresenter.ShowInitialImage();
         }
 
         private void PictureBox_Up(object sender, MouseEventArgs e)
@@ -275,41 +246,33 @@ namespace MyPhoto.Ui
 
         private void GaussianBlurButton_Click(object sender, EventArgs e)
         {
-            Cursor = Cursors.WaitCursor; // change cursor to hourglass type
+            Cursor = Cursors.WaitCursor; // Change cursor to hourglass type
             EditorPresenter.ApplyGaussianBlur();
-            Cursor = Cursors.Arrow; // change cursor to normal type
+            Cursor = Cursors.Arrow; // Change cursor to normal type
         }
 
         private void MedianBlurButton_Click(object sender, EventArgs e)
         {
-            Cursor = Cursors.WaitCursor; // change cursor to hourglass type
+            Cursor = Cursors.WaitCursor; // Change cursor to hourglass type
             EditorPresenter.ApplyMedianBlur();
-            Cursor = Cursors.Arrow; // change cursor to normal type
+            Cursor = Cursors.Arrow; // Change cursor to normal type
         }
 
         private void CartoonButton_Click(object sender, EventArgs e)
         {
-            Cursor = Cursors.WaitCursor; // change cursor to hourglass type
+            Cursor = Cursors.WaitCursor; // Change cursor to hourglass type
             EditorPresenter.ApplyCartoon();
-            Cursor = Cursors.Arrow; // change cursor to normal type
+            Cursor = Cursors.Arrow; // Change cursor to normal type
         }
 
         private void UndoButton_Click(object sender, EventArgs e)
         {
             EditorPresenter.Undo();
-
-            UpdateUi();
-
-            EditorPresenter.ReloadPictureBox();
         }
 
         private void RedoButton_Click(object sender, EventArgs e)
         {
             EditorPresenter.Redo();
-
-            UpdateUi();
-
-            EditorPresenter.ReloadPictureBox();
         }
     }
 }
