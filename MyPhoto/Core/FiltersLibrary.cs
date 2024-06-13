@@ -262,7 +262,7 @@ namespace MyPhoto.Core
             return kernel;
         }
 
-        public static Bitmap Convolve(Bitmap srcImage, double[,] kernel)
+        public static Bitmap Convolve(in Bitmap srcImage, double[,] kernel)
         {
             int width = srcImage.Width;
             int height = srcImage.Height;
@@ -335,7 +335,7 @@ namespace MyPhoto.Core
             return resultImage;
         }
 
-        public static Bitmap MedianFilter(Bitmap sourceBitmap,
+        public static Bitmap MedianFilter(in Bitmap sourceBitmap,
                                   int matrixSize)
         {
             BitmapData sourceData =
@@ -467,7 +467,7 @@ namespace MyPhoto.Core
         }
 
         public static Bitmap GradientBasedEdgeDetectionFilter(
-                        Bitmap sourceBitmap,
+                        in Bitmap sourceBitmap,
                         byte threshold = 0)
         {
             BitmapData sourceData =

@@ -110,12 +110,12 @@ namespace MyPhoto.Core
             return new List<FiltersLibrary.Filter>(_activeFilters);
         }
 
-        public void SetValues(Dictionary<FiltersLibrary.Filter, int> values)
+        public void SetValues(in Dictionary<FiltersLibrary.Filter, int> values)
         {
             _filtersValues = values;
         }
 
-        public void SetActiveFilters(List<FiltersLibrary.Filter> activeFilters)
+        public void SetActiveFilters(in List<FiltersLibrary.Filter> activeFilters)
         {
             _activeFilters = activeFilters;
         }

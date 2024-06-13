@@ -261,7 +261,7 @@ namespace MyPhoto.Ui
         private void CartoonButton_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor; // Change cursor to hourglass type
-            EditorPresenter.ApplyCartoon();
+            EditorPresenter.ApplyPencil();
             Cursor = Cursors.Arrow; // Change cursor to normal type
         }
 

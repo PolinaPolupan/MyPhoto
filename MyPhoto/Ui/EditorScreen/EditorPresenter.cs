@@ -115,8 +115,9 @@ namespace MyPhoto.Ui
 
                 _history.ResetHistory(); // Reset the history
 
+                var historyImage = (Image)image.Clone(); // Clone the state image to save the copy of it to the history
                 // Update the originator with the default values and the new image
-                _originator.Update(_filtersManager.GetValues(), _filtersManager.GetActiveFilters(), image);
+                _originator.Update(_filtersManager.GetValues(), _filtersManager.GetActiveFilters(), historyImage);
                 // Initilalize the history with the initial memento
                 _history.Initialize(_originator.CreateMemento());
 
@@ -172,13 +173,13 @@ namespace MyPhoto.Ui
             SaveState(true); // Save the state with the image
         }
 
-        public void ApplyCartoon()
+        public void ApplyPencil()
         {
             ReleasePictureBoxResources();
 
             var image = (System.Drawing.Image)_state.image.Clone(); // Create temp image
             _state.image?.Dispose(); // Release the image in the state
-            _state.image = _filtersManager.ApplyCartoon(image, 9);
+            _state.image = _filtersManager.ApplyPencil(image, 9);
             image.Dispose(); // Release the temp image
 
             ReloadPictureBox();
