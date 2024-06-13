@@ -14,20 +14,24 @@ namespace MyPhoto.Core
         private readonly Dictionary<FiltersLibrary.Filter, int> _values = [];
         private readonly List<FiltersLibrary.Filter> _activeFilters = [];
 
-        public ImageMemento(Image image, Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
+        public ImageMemento(
+            in Image image, Dictionary<FiltersLibrary.Filter, int> values, 
+            in List<FiltersLibrary.Filter> activeFilters)
         {
             _image = image;
             _values = values;
             _activeFilters = activeFilters;
         }
 
-        public ImageMemento(Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
+        public ImageMemento(
+            in Dictionary<FiltersLibrary.Filter, int> values, 
+            in List<FiltersLibrary.Filter> activeFilters)
         {
             _values = values;
             _activeFilters = activeFilters;
         }
 
-        public ImageMemento(Image image)
+        public ImageMemento(in Image image)
         {
             _image = image;
         }
@@ -59,7 +63,10 @@ namespace MyPhoto.Core
         private Dictionary<FiltersLibrary.Filter, int> _values = [];
         private List<FiltersLibrary.Filter> _activeFilters = [];
 
-        public ImageOriginator(Image image, Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
+        public ImageOriginator(
+            in Image image, 
+            in Dictionary<FiltersLibrary.Filter, int> values, 
+            in List<FiltersLibrary.Filter> activeFilters)
         {
             _image = image;
             _values = values;
@@ -67,25 +74,28 @@ namespace MyPhoto.Core
 
         }
 
-        public ImageOriginator(Image image)
+        public ImageOriginator(in Image image)
         {
             _image = image;
         }
 
-        public void Update(Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters, Image image)
+        public void Update(
+            in Dictionary<FiltersLibrary.Filter, int> values, 
+            in List<FiltersLibrary.Filter> activeFilters, 
+            in Image image)
         {
             _image = image;
             _values = values;
             _activeFilters = activeFilters;
         }
 
-        public void Update(Dictionary<FiltersLibrary.Filter, int> values, List<FiltersLibrary.Filter> activeFilters)
+        public void Update(in Dictionary<FiltersLibrary.Filter, int> values, in List<FiltersLibrary.Filter> activeFilters)
         {
             _values = values;
             _activeFilters = activeFilters;
         }
 
-        public void UpdateActiveFilters(List<FiltersLibrary.Filter> activeFilters)
+        public void UpdateActiveFilters(in List<FiltersLibrary.Filter> activeFilters)
         {
             _activeFilters = activeFilters;
         }
@@ -114,7 +124,7 @@ namespace MyPhoto.Core
             return new ImageMemento(_values, _activeFilters);
         }
 
-        public void RestoreFromMemento(ImageMemento memento)
+        public void RestoreFromMemento(in ImageMemento memento)
         {
             _image = memento.GetSavedImage();
             _values = memento.GetSavedValues();
@@ -127,19 +137,19 @@ namespace MyPhoto.Core
         private List<ImageMemento> _mementos = [];
         private int _currentIndex = 0;
 
-        public History(ImageMemento memento)
+        public History(in ImageMemento memento)
         {
             Initialize(memento);
         }
 
-        public void Initialize(ImageMemento memento)
+        public void Initialize(in ImageMemento memento)
         {
             // Don't need to increment the current index to add the intial state
             _currentIndex = 0;
             _mementos.Add(memento);
         }
 
-        public void AddMemento(ImageMemento memento)
+        public void AddMemento(in ImageMemento memento)
         {
             _currentIndex++;
 
