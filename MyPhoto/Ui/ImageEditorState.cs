@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MyPhoto.Ui
 {
-    internal static class ImageEditorState
+    internal class ImageEditorState
     {
-        public static Image? image = null;
-        public static string? imagePath = null;
+        public Image? image = null;
+        public string? imagePath = null;
     }
 }

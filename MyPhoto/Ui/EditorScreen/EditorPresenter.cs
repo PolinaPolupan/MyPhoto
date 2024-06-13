@@ -19,13 +19,22 @@ namespace MyPhoto.Ui
 
         private readonly ImageOriginator _originator;
 
-        public EditorPresenter(IEditorView view, FiltersManager filtersManager, History history, ImageOriginator originator)
+        private readonly ImageEditorState _state;
+
+        public Image Image
+        {
+            get { return _state.image; }
+            set { _state.image = value; }
+        }
+
+        public EditorPresenter(IEditorView view, ImageEditorState state, FiltersManager filtersManager, History history, ImageOriginator originator)
         {
             _view = view;
             _view.EditorPresenter = this;
             _filtersManager = filtersManager;
             _history = history;
             _originator = originator;
+            _state = state;
         }
 
         public void Show()
@@ -36,7 +45,7 @@ namespace MyPhoto.Ui
         public void ReloadPictureBox()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.Reload(ref ImageEditorState.image);
+            _view.Image = _filtersManager.Reload(ref _state.image);
         }
 
         public void PictureBox_Down()
@@ -49,14 +58,14 @@ namespace MyPhoto.Ui
 
         public void OpenImage()
         {
-            var res = ImageLoader.LoadImage(ref ImageEditorState.image, ref ImageEditorState.imagePath);
+            var res = ImageLoader.LoadImage(ref _state.image, ref _state.imagePath);
             if (res == DialogResult.OK)
             {
                 _filtersManager.ResetAll();
                 ReloadPictureBox(); // Reapply all of the filters
 
-                Debug.Assert(ImageEditorState.image != null); // What if the image == null? Resolve issue
-                var image = (System.Drawing.Image)ImageEditorState.image.Clone();
+                Debug.Assert(_state.image != null); // What if the image == null? Resolve issue
+                var image = (System.Drawing.Image)_state.image.Clone();
 
                 _history.ResetHistory();
 
@@ -79,17 +88,17 @@ namespace MyPhoto.Ui
 
         private void ReleasePictureBoxResources()
         {
-            Debug.Assert(ImageEditorState.image != null);
+            Debug.Assert(_state.image != null);
             _view.Image?.Dispose();
         }
 
         public void ApplyGaussianBlur()
         {
             ReleasePictureBoxResources();
-            var image = (System.Drawing.Image)ImageEditorState.image.Clone();
-            ImageEditorState.image?.Dispose();
+            var image = (System.Drawing.Image)_state.image.Clone();
+            _state.image?.Dispose();
 
-            ImageEditorState.image = _filtersManager.ApplyGaussianBlur(image, 9.25f);
+            _state.image = _filtersManager.ApplyGaussianBlur(image, 9.25f);
 
             image.Dispose();
             ReloadPictureBox();
@@ -99,10 +108,10 @@ namespace MyPhoto.Ui
         public void ApplyMedianBlur()
         {
             ReleasePictureBoxResources();
-            var image = (System.Drawing.Image)ImageEditorState.image.Clone();
-            ImageEditorState.image?.Dispose();
+            var image = (System.Drawing.Image)_state.image.Clone();
+            _state.image?.Dispose();
 
-            ImageEditorState.image = _filtersManager.ApplyMedianBlur(image, 9);
+            _state.image = _filtersManager.ApplyMedianBlur(image, 9);
 
             image.Dispose();
             ReloadPictureBox();
@@ -112,110 +121,111 @@ namespace MyPhoto.Ui
         public void ApplyCartoon()
         {
             ReleasePictureBoxResources();
-            var image = (System.Drawing.Image)ImageEditorState.image.Clone();
-            ImageEditorState.image?.Dispose();
+            var image = (System.Drawing.Image)_state.image.Clone();
+            _state.image?.Dispose();
 
-            ImageEditorState.image = _filtersManager.ApplyCartoon(image, 9);
+            _state.image = _filtersManager.ApplyCartoon(image, 9);
 
             image.Dispose();
             ReloadPictureBox();
             SaveState(true);
         }
 
-        public void ApplyBrightness(int value)
+        public void ApplyBrightness()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplyBrightness(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplyBrightness(ref _state.image, _view.Brightness);
             SaveState();
         }
 
-        public void ApplyContrast(int value)
+        public void ApplyContrast()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplyContrast(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplyContrast(ref _state.image, _view.Contrast);
             SaveState();
         }
 
-        public void ApplySaturation(int value)
+        public void ApplySaturation()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplySaturation(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplySaturation(ref _state.image, _view.Saturation);
             SaveState();
         }
 
-        public void ApplyRedChannel(int value)
+        public void ApplyRedChannel()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplyRedChannel(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplyRedChannel(ref _state.image, _view.RedChannel);
             SaveState();
         }
 
-        public void ApplyGreenChannel(int value)
+        public void ApplyGreenChannel()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplyGreenChannel(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplyGreenChannel(ref _state.image, _view.GreenChannel);
             SaveState();
         }
 
-        public void ApplyBlueChannel(int value)
+        public void ApplyBlueChannel()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplyBlueChannel(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplyBlueChannel(ref _state.image, _view.BlueChannel);
             SaveState();
         }
 
-        public void ApplyHue(int value)
+        public void ApplyHue()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplyHue(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplyHue(ref _state.image, _view.Hue);
             SaveState();
         }
 
-        public void ApplyTransparency(int value)
+        public void ApplyTransparency()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplyTransparency(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplyTransparency(ref _state.image, _view.Transparency);
             SaveState();
         }
 
-        public void ApplySepia(int value)
+        public void ApplySepia()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplySepia(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplySepia(ref _state.image, _view.Sepia);
             SaveState();
         }
 
-        public void ApplyGrayscale(int value)
+        public void ApplyGrayscale()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplyGrayscale(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplyGrayscale(ref _state.image, _view.Grayscale);
             SaveState();
         }
 
-        public void ApplyNegative(int value)
+        public void ApplyNegative()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplyNegative(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplyNegative(ref _state.image, _view.Negative);
             SaveState();
         }
 
-        public void ApplyDark(int value)
+        public void ApplyDark()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplyDark(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplyDark(ref _state.image, _view.Dark);
             SaveState();
         }
 
-        public void ApplyBlue(int value)
+        public void ApplyBlue()
         {
-            _view.Image = _filtersManager.ApplyBlue(ref ImageEditorState.image, value);
+            ReleasePictureBoxResources();
+            _view.Image = _filtersManager.ApplyBlue(ref _state.image, _view.Blue);
             SaveState();
         }
 
-        public void ApplyPurple(int value)
+        public void ApplyPurple()
         {
             ReleasePictureBoxResources();
-            _view.Image = _filtersManager.ApplyPurple(ref ImageEditorState.image, value);
+            _view.Image = _filtersManager.ApplyPurple(ref _state.image, _view.Purple);
             SaveState();
         }
 
@@ -248,7 +258,7 @@ namespace MyPhoto.Ui
             var activeFilters = _originator.GetActiveFilters();
 
             if (image != null)
-                ImageEditorState.image = (System.Drawing.Image)image.Clone();
+                _state.image = (System.Drawing.Image)image.Clone();
 
             _filtersManager.SetValues(values);
             _filtersManager.SetActiveFilters(activeFilters);
@@ -265,7 +275,7 @@ namespace MyPhoto.Ui
             var activeFilters = _originator.GetActiveFilters();
 
             if (image != null)
-                ImageEditorState.image = (System.Drawing.Image)image.Clone();
+                _state.image = (System.Drawing.Image)image.Clone();
 
             _filtersManager.SetValues(values);
             _filtersManager.SetActiveFilters(activeFilters);

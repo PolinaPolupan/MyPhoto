@@ -15,7 +15,8 @@ namespace MyPhoto.Ui
             ApplicationConfiguration.Initialize();            
 
             var welcomeView = new WelcomeForm();
-            var welcomePresenter = new WelcomePresenter(welcomeView);
+            var state = new ImageEditorState();
+            var welcomePresenter = new WelcomePresenter(welcomeView, state);
 
             Application.Run(welcomeView);
         }

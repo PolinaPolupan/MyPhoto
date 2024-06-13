@@ -25,6 +25,101 @@ namespace MyPhoto.Ui
             set { PictureBox.Image = value; }
         }
 
+        public int Brightness 
+        {
+            get { return BrightnessSlider.Value; }
+            set { BrightnessSlider.Value = value; } 
+        }
+        
+        public int Contrast 
+        {
+            get { return ContrastSlider.Value; }
+            set { ContrastSlider.Value = value; }
+        }
+        
+        public int Saturation 
+        {
+            get { return SaturationSlider.Value; }
+            set { SaturationSlider.Value = value; }
+        }
+        
+        public int Hue 
+        {
+            get { return HueSlider.Value; }
+            set { HueSlider.Value = value; }
+        }
+        
+        public int RedChannel 
+        {
+            get { return RedChannelSlider.Value; }
+            set { RedChannelSlider.Value = value; }
+        }
+        
+        public int GreenChannel 
+        {
+            get { return GreenChannelSlider.Value; }
+            set { GreenChannelSlider.Value = value; }
+        }
+        
+        public int BlueChannel 
+        {
+            get { return BlueChannelSlider.Value; }
+            set { BlueChannelSlider.Value = value; }
+        }
+
+        public int Transparency 
+        {
+            get { return (TransparencyCheckBox.Checked) ? 1 : 0; }
+            set { TransparencyCheckBox.Checked = value > 0; }
+        }
+
+        public int Sepia 
+        {
+            get { return (SepiaCheckBox.Checked) ? 1 : 0; }
+            set { SepiaCheckBox.Checked = value > 0; }
+        }
+
+        public int Grayscale
+        {
+            get { return (GrayscaleCheckBox.Checked) ? 1 : 0; }
+            set { GrayscaleCheckBox.Checked = value > 0; }
+        }
+
+        public int Negative
+        {
+            get { return (NegativeCheckBox.Checked) ? 1 : 0; }
+            set { NegativeCheckBox.Checked = value > 0; }
+        }
+        public int Dark
+        {
+            get { return (DarkCheckBox.Checked) ? 1 : 0; }
+            set { DarkCheckBox.Checked = value > 0; }
+        }
+
+        public int Blue
+        {
+            get { return (BlueCheckBox.Checked) ? 1 : 0; }
+            set { BlueCheckBox.Checked = value > 0; }
+        }
+
+        public int Purple
+        {
+            get { return (PurpleCheckBox.Checked) ? 1 : 0; }
+            set { PurpleCheckBox.Checked = value > 0; }
+        }
+
+        public bool UndoButtonEnabled 
+        {
+            get { return UndoButton.Enabled; }
+            set { UndoButton.Enabled = value; }
+        }
+
+        public bool RedoButtonEnabled 
+        {
+            get { return RedoButton.Enabled; }
+            set { RedoButton.Enabled = value; }
+        }
+
         public EditorForm()
         {
             InitializeComponent();
@@ -37,23 +132,23 @@ namespace MyPhoto.Ui
 
         private void UpdateUi()
         {
-            BrightnessSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.BRIGHTNESS);
-            ContrastSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.CONTRAST);
-            SaturationSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.SATURATION);
-            HueSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.HUE);
-            RedChannelSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.RED);
-            GreenChannelSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.GREEN);
-            BlueChannelSlider.Value = EditorPresenter.GetValue(FiltersLibrary.Filter.BLUE);
-            SepiaCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.SEPIA) > 0;
-            NegativeCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.NEGATIVE) > 0;
-            TransparencyCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.TRANSPARENCY) > 0;
-            GrayscaleCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.GRAYSCALE) > 0;
-            DarkCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.DARK) > 0;
-            BlueCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.BLUE_FILTER) > 0;
-            PurpleCheckBox.Checked = EditorPresenter.GetValue(FiltersLibrary.Filter.PURPLE) > 0;
+            Brightness = EditorPresenter.GetValue(FiltersLibrary.Filter.BRIGHTNESS);
+            Contrast = EditorPresenter.GetValue(FiltersLibrary.Filter.CONTRAST);
+            Saturation = EditorPresenter.GetValue(FiltersLibrary.Filter.SATURATION);
+            Hue = EditorPresenter.GetValue(FiltersLibrary.Filter.HUE);
+            RedChannel = EditorPresenter.GetValue(FiltersLibrary.Filter.RED);
+            GreenChannel = EditorPresenter.GetValue(FiltersLibrary.Filter.GREEN);
+            BlueChannel = EditorPresenter.GetValue(FiltersLibrary.Filter.BLUE);
+            Sepia = EditorPresenter.GetValue(FiltersLibrary.Filter.SEPIA);
+            Negative = EditorPresenter.GetValue(FiltersLibrary.Filter.NEGATIVE);
+            Transparency = EditorPresenter.GetValue(FiltersLibrary.Filter.TRANSPARENCY);
+            Grayscale = EditorPresenter.GetValue(FiltersLibrary.Filter.GRAYSCALE);
+            Dark = EditorPresenter.GetValue(FiltersLibrary.Filter.DARK);
+            Blue = EditorPresenter.GetValue(FiltersLibrary.Filter.BLUE_FILTER);
+            Purple = EditorPresenter.GetValue(FiltersLibrary.Filter.PURPLE);
 
-            UndoButton.Enabled = EditorPresenter.IsUndoEnabled();
-            RedoButton.Enabled = EditorPresenter.IsRedoEnabled();
+            UndoButtonEnabled = EditorPresenter.IsUndoEnabled();
+            RedoButtonEnabled = EditorPresenter.IsRedoEnabled();
         }
 
         private void ResetAllButton_Click(object sender, EventArgs e)
@@ -62,8 +157,8 @@ namespace MyPhoto.Ui
 
             EditorPresenter.SaveState();
 
-            RedoButton.Enabled = EditorPresenter.IsRedoEnabled();
-            UndoButton.Enabled = EditorPresenter.IsUndoEnabled();
+            RedoButtonEnabled = EditorPresenter.IsRedoEnabled();
+            UndoButtonEnabled = EditorPresenter.IsUndoEnabled();
 
             UpdateUi();
         }
@@ -100,72 +195,72 @@ namespace MyPhoto.Ui
 
         private void BrightnessSlider_Scroll(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyBrightness(BrightnessSlider.Value);
+            EditorPresenter.ApplyBrightness();
         }
 
         private void ContrastSlider_Scroll(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyContrast(ContrastSlider.Value);
+            EditorPresenter.ApplyContrast();
         }
 
         private void SaturationSlider_Scroll(object sender, EventArgs e)
         {
-            EditorPresenter.ApplySaturation(SaturationSlider.Value);
+            EditorPresenter.ApplySaturation();
         }
 
         private void Red_Scroll(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyRedChannel(RedChannelSlider.Value);
+            EditorPresenter.ApplyRedChannel();
         }
 
         private void Green_Scroll(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyGreenChannel(GreenChannelSlider.Value);
+            EditorPresenter.ApplyGreenChannel();
         }
 
         private void Blue_Scroll(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyBlueChannel(BlueChannelSlider.Value);
+            EditorPresenter.ApplyBlueChannel();
         }
 
         private void HueSlider_Scroll(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyHue(HueSlider.Value);
+            EditorPresenter.ApplyHue();
         }
 
         private void TransparencyCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyTransparency((TransparencyCheckBox.Checked) ? 1 : 0);
+            EditorPresenter.ApplyTransparency();
         }
 
         private void SepiaCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            EditorPresenter.ApplySepia((SepiaCheckBox.Checked) ? 1 : 0);
+            EditorPresenter.ApplySepia();
         }
 
         private void GrayscaleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyGrayscale((GrayscaleCheckBox.Checked) ? 1 : 0);
+            EditorPresenter.ApplyGrayscale();
         }
 
         private void NegativeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyNegative((NegativeCheckBox.Checked) ? 1 : 0);
+            EditorPresenter.ApplyNegative();
         }
 
         private void DarkCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyDark((DarkCheckBox.Checked) ? 1 : 0);
+            EditorPresenter.ApplyDark();
         }
 
         private void BlueCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyBlue((BlueCheckBox.Checked) ? 1 : 0);
+            EditorPresenter.ApplyBlue();
         }
 
         private void PurpleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            EditorPresenter.ApplyPurple((PurpleCheckBox.Checked) ? 1 : 0);
+            EditorPresenter.ApplyPurple();
         }
 
         private void PictureBox_Down(object sender, EventArgs e)
