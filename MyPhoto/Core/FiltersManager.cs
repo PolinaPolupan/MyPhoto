@@ -95,19 +95,19 @@ namespace MyPhoto.Core
 
         public Bitmap ApplyRedChannel(in Image image, int red)
         {
-            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.RED, red);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.RED_CHANNEL, red);
             return ApplyColorMatrix(image);
         }
 
         public Bitmap ApplyGreenChannel(in Image image, int green)
         {
-            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.GREEN, green);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.GREEN_CHANNEL, green);
             return ApplyColorMatrix(image);
         }
 
         public Bitmap ApplyBlueChannel(in Image image, int blue)
         {
-            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.BLUE, blue);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.BLUE_CHANNEL, blue);
             return ApplyColorMatrix(image);
         }
 
@@ -119,7 +119,7 @@ namespace MyPhoto.Core
 
         public Bitmap ApplyBlue(in Image image, int value)
         {
-            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.BLUE_FILTER, value);
+            _commandQueue.AddFilterCommand(FiltersLibrary.Filter.BLUE, value);
             return ApplyColorMatrix(image);
         }
 

@@ -16,6 +16,7 @@ namespace MyPhoto.Ui
         private void RoundedButton_Click(object sender, EventArgs e)
         {
             WelcomePresenter.LoadImage();
+            // TODO: Move this logic to the factory
             if (WelcomePresenter.Image != null)
             {
                 var commandQueue = new CommandQueue();
