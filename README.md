@@ -13,10 +13,8 @@
 * Memory leak in history of editing
 * Rewrite filters using C/C++ code and shaders
 * Use a linear algebra library to perform fast computations
-* Rewrite UI using UI presentation pattern
 * Write tests
 ## Screenshots
-![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/139db19c-4125-4b5e-b011-28042cfec9f3)
-![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/0d46cfaa-700c-42e3-a4d7-0d60fc50528d)
-![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/cde4f4fa-2925-45ca-ac59-121682c19f69)
-
+![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/b45dbef5-b862-4400-86ba-64fb18ac7dfe)
+![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/0cbc4cdc-471c-49dd-ad32-c0ba8b7c1f51)
+![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/084b330a-96b6-45fc-8d81-46d52525b602)
