@@ -13,7 +13,6 @@
 * Memory leak in history of editing
 * Rewrite filters using C/C++ code and shaders
 * Use a linear algebra library to perform fast computations
-* Write tests
 ## Screenshots
 ![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/b45dbef5-b862-4400-86ba-64fb18ac7dfe)
 ![image](https://github.com/PolinaPolupan/MyPhoto/assets/143635446/0cbc4cdc-471c-49dd-ad32-c0ba8b7c1f51)
